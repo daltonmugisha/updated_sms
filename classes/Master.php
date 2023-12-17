@@ -509,6 +509,40 @@ Class Master extends DBConnection {
 		return json_encode($resp);
 
 	}
+	
+	public function checknumber() {
+		// Step 1: Ensure $_POST['item'] has a valid value
+		$data = isset($_POST['item']) ? $_POST['item'] : null;
+	
+		if ($data === null) {
+			// Handle the case where $_POST['item'] is not set
+			return "Error: 'item' not set in the POST data.";
+		}
+	
+		// Step 2: Verify data in the stock_list table
+		$inResult = $this->conn->query("SELECT SUM(quantity) as total FROM stock_list WHERE item_id = $data AND type = 1");
+		$outResult = $this->conn->query("SELECT SUM(quantity) as total FROM stock_list WHERE item_id = $data AND type = 2");
+	
+	
+		// Step 4: Handle potential errors in queries
+		if (!$inResult) {
+			die("In Query Error: " . mysqli_error($this->conn));
+		}
+	
+		if (!$outResult) {
+			die("Out Query Error: " . mysqli_error($this->conn));
+		}
+	
+		// Step 5: Fetch the results and calculate the net quantity
+		$in = $inResult->fetch_array()['total'];
+		$out = $outResult->fetch_array()['total'];
+	
+		// Step 6: Check for division by zero or other business logic if needed
+		$results = $in - $out;
+	
+		return $results;
+	}
+	
 	function save_sale(){
 		if(empty($_POST['id'])){
 			$prefix = "SALE";
@@ -639,6 +673,9 @@ switch ($action) {
 	break;
 	case 'save_sale':
 		echo $Master->save_sale();
+	break;
+	case 'checknumber':
+		echo $Master->checknumber();
 	break;
 	case 'delete_sale':
 		echo $Master->delete_sale();

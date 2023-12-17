@@ -49,9 +49,9 @@
                     </li>
                     <li class="nav-item">
                       <a href="<?php echo base_url ?>admin/?page=back_order" class="nav-link nav-back_order">
-                        <i class="nav-icon fas fa-exchange-alt"></i>
+                        <i class="nav-icon fas fa-chart-area"></i>
                         <p>
-                          Back Order
+                          Reports
                         </p>
                       </a>
                     </li>
@@ -98,10 +98,26 @@
                       </a>
                     </li>
                     <li class="nav-item dropdown">
+                      <a href="<?php echo base_url ?>admin/?page=maintenance/item" class="nav-link nav-maintenance_item">
+                        <i class="nav-icon fas fa-list"></i>
+                        <p>
+                          Category Lists
+                        </p>
+                      </a>
+                    </li>
+                    <li class="nav-item dropdown">
                       <a href="<?php echo base_url ?>admin/?page=user/list" class="nav-link nav-user_list">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
                           User List
+                        </p>
+                      </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                      <a href="<?php echo base_url ?>admin/?page=maintenance/item" class="nav-link nav-maintenance_item">
+                        <i class="nav-icon fas fa-clock"></i>
+                        <p>
+                        History
                         </p>
                       </a>
                     </li>

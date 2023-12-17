@@ -250,6 +250,24 @@ if(isset($_GET['id'])){
             var item_name = items[supplier][item].name || 'N/A';
             var item_description = items[supplier][item].description || 'N/A';
             var tr = $('#clone_list tr').clone()
+
+
+            var FormDatas = new FormData()
+            FormDatas.append("item", item);
+
+            $.ajax({
+                url: _base_url_ + "classes/Master.php?f=checknumber",
+                data: FormDatas,
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'POST',
+                type: 'POST',
+                success: function(resp) {
+                    alert(resp)
+                    if (resp !== 0 && resp >= parseInt(qty)) {
+
+
             if(item == '' || qty == '' || unit == '' ){
                 alert_toast('Form Item textfields are required.','warning');
                 return false;
@@ -282,6 +300,14 @@ if(isset($_GET['id'])){
                 calc()
             })
             $('#supplier_id').attr('readonly','readonly')
+        } else {
+                        alert_toast('THERE ARE INAFFICIENT ITEMS IN THE STOCK', 'error')
+                    }
+                },
+                error: function(error) {
+                    alert("error", error)
+                }
+            })
         })
         $('#return-form').submit(function(e){
 			e.preventDefault();

@@ -38,10 +38,10 @@
         </div>
         <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box bg-light shadow">
-                <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-exchange-alt"></i></span>
+                <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-bell"></i></span>
 
                 <div class="info-box-content">
-                    <span class="info-box-text">BO Records</span>
+                    <span class="info-box-text">Notification</span>
                     <span class="info-box-number text-right">
                         <?php
                         echo $conn->query("SELECT * FROM `back_order_list`")->num_rows;
@@ -139,13 +139,27 @@
 
 
     </div>
-    <h3>CHART</h3>
+    <h3>Main info</h3>
 
     <div class="row">
         <div class="col">
-            <center><h4>Purchasing rate</h4></center>
-        <div id="chart_Sec" class="bg-light p-3 rounded-5">
-            </div>
+            <center><h4>Activities</h4></center>
+       <div class="table">
+        <table class="table text-center border">
+            <thead >
+            <th>Activity</th>
+            <th>Discription</th>
+            <th>Date</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>You added an item</td>
+                    <td>The item added was new uniform of size ********</td>
+                    <td>On 12/12/2023</td>
+                </tr>
+            </tbody>
+        </table>
+       </div>
         </div>
         <div class="col">
 <center>            <h3>In Stock Product</h3>
