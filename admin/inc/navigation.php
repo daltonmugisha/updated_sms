@@ -98,10 +98,10 @@
                       </a>
                     </li>
                     <li class="nav-item dropdown">
-                      <a href="<?php echo base_url ?>admin/?page=maintenance/item" class="nav-link nav-maintenance_item">
+                    <a href="<?php echo base_url ?>admin/?page=category/addcategory" class="nav-link  <?php echo isset($_GET['page']) && $_GET['page'] == 'category/addcategory' ? 'active' : ''; ?>">
                         <i class="nav-icon fas fa-list"></i>
                         <p>
-                          Category Lists
+                          Category Lists 
                         </p>
                       </a>
                     </li>
@@ -114,7 +114,7 @@
                       </a>
                     </li>
                     <li class="nav-item dropdown">
-                      <a href="<?php echo base_url ?>admin/?page=maintenance/item" class="nav-link nav-maintenance_item">
+                      <a href="<?php echo base_url ?>admin/?page=history/history" class="nav-link ">
                         <i class="nav-icon fas fa-clock"></i>
                         <p>
                         History

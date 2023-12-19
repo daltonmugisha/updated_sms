@@ -39,7 +39,7 @@ class SystemSettings extends DBConnection{
 				$qry = $this->conn->query("INSERT into system_info set meta_value = '{$value}', meta_field = '{$key}' ");
 			}
 		}
-		if(isset($_POST['content']))
+		if(isset($_POST['content']))	
 		foreach($_POST['content'] as $k => $v){
 			file_put_contents("../{$k}.html",$v);
 

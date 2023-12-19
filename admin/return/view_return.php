@@ -47,7 +47,7 @@ if($qry->num_rows >0){
                     $total = 0;
                     $qry = $conn->query("SELECT s.*,i.name,i.description FROM `stock_list` s inner join item_list i on s.item_id = i.id where s.id in ({$stock_ids})");
                     while($row = $qry->fetch_assoc()):
-                        $total += $row['total']
+                        $total += $row['total'];
                     ?>
                     <tr>
                         <td class="py-1 px-2 text-center"><?php echo number_format($row['quantity']) ?></td>

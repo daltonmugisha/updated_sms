@@ -264,7 +264,7 @@ if(isset($_GET['id'])){
                 method: 'POST',
                 type: 'POST',
                 success: function(resp) {
-                    alert(resp)
+                    // alert(resp)
                     if (resp !== 0 && resp >= parseInt(qty)) {
 
 

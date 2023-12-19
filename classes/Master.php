@@ -111,12 +111,81 @@ Class Master extends DBConnection {
 		}
 		return json_encode($resp);
 	}
+
+	function save_category(){
+
+		extract($_POST);
+		$data = "";
+		foreach($_POST as $k =>$v){
+			if(!in_array($k,array('id'))){
+				$v = $this->conn->real_escape_string($v);
+				if(!empty($data)) $data .=",";
+				$data .= " `{$k}`='{$v}' ";
+			}
+		}
+	
+		if(empty($id)){
+			$check = $this->conn->query("SELECT * FROM `category` where `name` = '{$name}' ")->num_rows;
+			if($this->capture_err())
+				return $this->capture_err();	
+			if($check > 0){
+				$resp['status'] = 'failed';
+				$resp['msg'] = "Category already exists.";
+				return json_encode($resp);
+				exit;
+			}else
+			{
+			$sql = "INSERT INTO `category` set {$data} ";
+			$save = $this->conn->query($sql);
+			}
+		
+		}else{
+			$check = $this->conn->query("SELECT * FROM `category` where `name` = '{$name}' AND id !='{$id}' ")->num_rows;
+			if($this->capture_err())
+				return $this->capture_err();	
+			if($check > 0){
+				$resp['status'] = 'failed';
+				$resp['msg'] = "Category already existing.";
+				return json_encode($resp);
+				exit;
+			}else{
+				$sql = "UPDATE `category` set {$data} where id = '{$id}' ";
+			$save = $this->conn->query($sql);
+			}
+			
+		}
+		if($save){
+			$resp['status'] = 'success';
+			if(empty($id))
+				$this->settings->set_flashdata('success',"New Category successfully saved.");
+			else
+				$this->settings->set_flashdata('success',"Category successfully updated.");
+		}else{
+			$resp['status'] = 'failed';
+			$resp['err'] = $this->conn->error."[{$sql}]";
+		}
+		return json_encode($resp);
+	}
 	function delete_item(){
 		extract($_POST);
 		$del = $this->conn->query("DELETE FROM `item_list` where id = '{$id}'");
 		if($del){
 			$resp['status'] = 'success';
 			$this->settings->set_flashdata('success',"Item  successfully deleted.");
+		}else{
+			$resp['status'] = 'failed';
+			$resp['error'] = $this->conn->error;
+		}
+		return json_encode($resp);
+
+	}
+
+	function delete_category(){
+		extract($_POST);
+		$del = $this->conn->query("DELETE FROM `category` where id = '{$id}'");
+		if($del){
+			$resp['status'] = 'success';
+			$this->settings->set_flashdata('success',"Category  successfully deleted.");
 		}else{
 			$resp['status'] = 'failed';
 			$resp['error'] = $this->conn->error;
@@ -509,7 +578,9 @@ Class Master extends DBConnection {
 		return json_encode($resp);
 
 	}
+   public	function dataStatitics(){
 	
+   }
 	public function checknumber() {
 		// Step 1: Ensure $_POST['item'] has a valid value
 		$data = isset($_POST['item']) ? $_POST['item'] : null;
@@ -641,6 +712,9 @@ switch ($action) {
 	case 'save_supplier':
 		echo $Master->save_supplier();
 	break;
+	case 'delete_category':
+		echo $Master->delete_category();
+	break;
 	case 'delete_supplier':
 		echo $Master->delete_supplier();
 	break;
@@ -655,6 +729,9 @@ switch ($action) {
 	break;
 	case 'save_po':
 		echo $Master->save_po();
+	break;
+	case 'save_category':
+		echo $Master->save_category();
 	break;
 	case 'delete_po':
 		echo $Master->delete_po();
@@ -673,13 +750,8 @@ switch ($action) {
 	break;
 	case 'save_sale':
 		echo $Master->save_sale();
-	break;
-	case 'checknumber':
-		echo $Master->checknumber();
-	break;
-	case 'delete_sale':
-		echo $Master->delete_sale();
-	break;
+		
+
 	default:
 		// echo $sysset->index();
 		break;
