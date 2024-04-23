@@ -194,7 +194,7 @@ if(isset($_GET['id'])){
     </tr>
 </table>
 <script>
-    var items = <?php echo json_encode($item_arr) ?>;
+    var items = $.parseJSON('<?php echo json_encode($item_arr) ?>')
     var costs = $.parseJSON('<?php echo json_encode($cost_arr) ?>')
     
     $(function(){
@@ -262,10 +262,9 @@ if(isset($_GET['id'])){
                 contentType: false,
                 processData: false,
                 method: 'POST',
-                type: 'POST',   
+                type: 'POST',
                 success: function(resp) {
-                    console.log(parseInt(qty))
-                    console.log(resp)
+                    // alert(resp)
                     if (resp !== 0 && resp >= parseInt(qty)) {
 
 

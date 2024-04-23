@@ -47,14 +47,7 @@
                         </p>
                       </a>
                     </li>
-                    <li class="nav-item">
-                      <a href="<?php echo base_url ?>admin/?page=back_order" class="nav-link nav-back_order">
-                        <i class="nav-icon fas fa-chart-area"></i>
-                        <p>
-                          Reports
-                        </p>
-                      </a>
-                    </li>
+                  
                     <li class="nav-item">
                       <a href="<?php echo base_url ?>admin/?page=return" class="nav-link nav-return">
                         <i class="nav-icon fas fa-undo"></i>
@@ -76,6 +69,14 @@
                         <i class="nav-icon fas fa-file-invoice-dollar"></i>
                         <p>
                           Sale List
+                        </p>
+                      </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                      <a href="<?php echo base_url ?>admin/?page=act/act" class="nav-link nav-link  <?php echo isset($_GET['page']) && $_GET['page'] == 'act/act' ? 'active' : ''; ?> ">
+                        <i class="nav-icon fas fa-clock"></i>
+                        <p>
+                        My activity
                         </p>
                       </a>
                     </li>
@@ -114,7 +115,7 @@
                       </a>
                     </li>
                     <li class="nav-item dropdown">
-                      <a href="<?php echo base_url ?>admin/?page=history/history" class="nav-link ">
+                      <a href="<?php echo base_url ?>admin/?page=history/history" class="nav-link nav-link  <?php echo isset($_GET['page']) && $_GET['page'] == 'history/history' ? 'active' : ''; ?>">
                         <i class="nav-icon fas fa-clock"></i>
                         <p>
                         History
@@ -122,10 +123,34 @@
                       </a>
                     </li>
                     <li class="nav-item dropdown">
-                      <a href="<?php echo base_url ?>admin/?page=system_info" class="nav-link nav-system_info">
+                      <a href="<?php echo base_url ?>admin/?page=gu/gu" class="nav-link <?php echo isset($_GET['page']) && $_GET['page'] == 'gu/gu' ? 'active' : ''; ?>">
+                        <i class="nav-icon 	fas fa-user-check	"></i>
+                        <p>
+                          Add guests
+                        </p>
+                      </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                      <a href="<?php echo base_url ?>admin/?page=system_info" class="nav-link nav-system_info ">
                         <i class="nav-icon fas fa-cogs"></i>
                         <p>
                           Settings
+                        </p>
+                      </a>
+                    </li>
+                    <li class="nav-item dropdown  ">
+                    <a href="<?php echo base_url ?>admin/?page=maintenance/report" class="nav-link  <?php echo isset($_GET['page']) && $_GET['page'] == 'maintenance/report' ? 'active' : ''; ?>">
+                        <i class="nav-icon far fa-newspaper	"></i>
+                        <p>
+                          Generate report
+                        </p>
+                      </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                      <a href="<?php echo base_url ?>admin/?page=unit/unit" class="nav-link <?php echo isset($_GET['page']) && $_GET['page'] == 'unit/unit' ? 'active' : ''; ?>">
+                        <i class="nav-icon fas fa-circle"></i>
+                        <p>
+                          Units Lists
                         </p>
                       </a>
                     </li>

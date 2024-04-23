@@ -52,12 +52,10 @@ if(isset($_GET['id']) && $_GET['id'] > 0){
                 dataType: 'json',
 				error:err=>{
 					console.log(err)
-					alert(err)
 					alert_toast("An error occured",'error');
 					end_loader();
 				},
 				success:function(resp){
-					alert("resp.status")
 					if(typeof resp =='object' && resp.status == 'success'){
 						location.reload();
 					}else if(resp.status == 'failed' && !!resp.msg){

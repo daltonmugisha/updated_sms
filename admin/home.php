@@ -38,14 +38,18 @@
         </div>
         <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box bg-light shadow">
-                <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-bell"></i></span>
+                <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-table"></i></span>
 
                 <div class="info-box-content">
-                    <span class="info-box-text">Notification</span>
+                    <span class="info-box-text">All stock</span>
                     <span class="info-box-number text-right">
                         <?php
-                        echo $conn->query("SELECT * FROM `back_order_list`")->num_rows;
-                        ?>
+$result = $conn->query("SELECT SUM(quantity) as allsum FROM `stock_list`");
+$row = $result->fetch_assoc();
+$sum = $row['allsum'];
+
+echo $sum;                       
+                       ?>
                     </span>
                 </div>
                 <!-- /.info-box-content -->
@@ -130,6 +134,7 @@
                             ?>
                         </span>
                     </div>
+                    
                     <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->
@@ -147,18 +152,30 @@
        <div class="table">
         <table class="table text-center border">
             <thead >
+            <th>Name</th>
             <th>Activity</th>
-            <th>Discription</th>
             <th>Date</th>
             </thead>
             <tbody>
-                <tr>
-                    <td>You added an item</td>
-                    <td>The item added was new uniform of size ********</td>
-                    <td>On 12/12/2023</td>
-                </tr>
+              
+                <?php 
+                        $i = 1;
+                        $userId = isset($_SESSION['userdata']['id']) ? $_SESSION['userdata']['id'] : 0; // Assuming 'id' is the correct key in your session array
+
+                        $qry = $conn->query("SELECT h.*, u.firstname as username, u.lastname as username2  , u.avatar as profile FROM `history` h inner join users u on h.owner = u.id WHERE u.id='$userId' order by h.`date` desc LIMIT 10");
+                      
+                      
+                        while($row = $qry->fetch_assoc()):
+                        ?>  <tr>
+                    <td><?php echo $row['username'] ?></td>
+                    <td><?php echo $row['history'] ?></td>
+                    <td>Done on: <p class="text-primary"><?php echo $row['date'] ?></p></td>
+</tr>
+                    <?php endwhile ?>
+                
             </tbody>
         </table>
+        <center><a href="./?page=act/act">More activity</a></center>
        </div>
         </div>
         <div class="col">
@@ -170,18 +187,39 @@
     </div>
 
 </div>
-<script>
-    var options = {
-        chart: {
-            type: 'donut'
-        },
-        series:[30, 40, 45, 50, 49, 60, 70, 91, 125],
-        chartOptions: {
-    labels: ['Apple', 'Mango', 'Orange', 'Watermelon']
-  }
+<?php
+$result = $conn->query("
+    SELECT category.name AS category_name, SUM(stock_list.quantity) AS total_quantity
+    FROM stock_list
+    INNER JOIN item_list ON stock_list.item_id = item_list.id
+    INNER JOIN category ON item_list.cat_id = category.id
+    GROUP BY category_name;
+");
+
+$categoryData = [];
+if ($result) {
+    while ($row = $result->fetch_assoc()) {
+        $categoryData[] = [
+            'category_name' => $row['category_name'],
+            'total_quantity' => $row['total_quantity']
+        ];
     }
+} else {
+    echo "Error: " . $conn->error;
+}
+?>
+    
+<script>
+    var categoryData = <?php echo json_encode($categoryData); ?>;
+
+    var options = {
+    chart: {
+        type: 'donut'
+    },
+    series: categoryData.map(item => Number(item.total_quantity)),
+    labels: categoryData.map(item => item.category_name)
+};
 
     var chart = new ApexCharts(document.querySelector("#chart"), options);
-
     chart.render();
 </script>

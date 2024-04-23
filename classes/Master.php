@@ -41,6 +41,11 @@ Class Master extends DBConnection {
 		if(empty($id)){
 			$sql = "INSERT INTO `supplier_list` set {$data} ";
 			$save = $this->conn->query($sql);
+			$userId = isset($_SESSION['userdata']['id']) ? $_SESSION['userdata']['id'] : 0; // Assuming 'id' is the correct key in your session array
+
+			$sql_h = "INSERT INTO `history` (owner, history, date) VALUES ('$userId', 'You have added a new supplier', NOW())";
+			
+			$done = $this->conn->query($sql_h);
 		}else{
 			$sql = "UPDATE `supplier_list` set {$data} where id = '{$id}' ";
 			$save = $this->conn->query($sql);
@@ -219,6 +224,12 @@ Class Master extends DBConnection {
 		}
 		if(empty($id)){
 			$sql = "INSERT INTO `purchase_order_list` set {$data}";
+
+			$userId = isset($_SESSION['userdata']['id']) ? $_SESSION['userdata']['id'] : 0; // Assuming 'id' is the correct key in your session array
+
+$sql_h = "INSERT INTO `history` (owner, history, date) VALUES ('$userId', 'You have made a purchase order', NOW())";
+
+$done = $this->conn->query($sql_h);
 		}else{
 			$sql = "UPDATE `purchase_order_list` set {$data} where id = '{$id}'";
 		}
@@ -335,6 +346,11 @@ Class Master extends DBConnection {
 		}
 		if(empty($id)){
 			$sql = "INSERT INTO `receiving_list` set {$data}";
+			$userId = isset($_SESSION['userdata']['id']) ? $_SESSION['userdata']['id'] : 0; // Assuming 'id' is the correct key in your session array
+
+			$sql_h = "INSERT INTO `history` (owner, history, date) VALUES ('$userId', 'The school stock has received new items', NOW())";
+			
+			$done = $this->conn->query($sql_h);
 		}else{
 			$sql = "UPDATE `receiving_list` set {$data} where id = '{$id}'";
 		}
@@ -515,6 +531,11 @@ Class Master extends DBConnection {
 		}
 		if(empty($id)){
 			$sql = "INSERT INTO `return_list` set {$data}";
+			$userId = isset($_SESSION['userdata']['id']) ? $_SESSION['userdata']['id'] : 0; // Assuming 'id' is the correct key in your session array
+
+			$sql_h = "INSERT INTO `history` (owner, history, date) VALUES ('$userId', 'New items are returned back to the customer', NOW())";
+			
+			$done = $this->conn->query($sql_h);
 		}else{
 			$sql = "UPDATE `return_list` set {$data} where id = '{$id}'";
 		}
@@ -610,7 +631,10 @@ Class Master extends DBConnection {
 	
 		// Step 6: Check for division by zero or other business logic if needed
 		$results = $in - $out;
+
+		// echo "hello test inindicator";
 	
+		// $results =  0 ; 
 		return $results;
 	}
 	
@@ -640,6 +664,11 @@ Class Master extends DBConnection {
 		}
 		if(empty($id)){
 			$sql = "INSERT INTO `sales_list` set {$data}";
+			$userId = isset($_SESSION['userdata']['id']) ? $_SESSION['userdata']['id'] : 0; // Assuming 'id' is the correct key in your session array
+
+			$sql_h = "INSERT INTO `history` (owner, history, date) VALUES ('$userId', 'The new item has been sold. Nolonger in stock', NOW())";
+			
+			$done = $this->conn->query($sql_h);
 		}else{
 			$sql = "UPDATE `sales_list` set {$data} where id = '{$id}'";
 		}
@@ -694,7 +723,7 @@ Class Master extends DBConnection {
 			$resp['status'] = 'success';
 			$this->settings->set_flashdata('success',"Sales Record's Successfully deleted.");
 			if(isset($res)){
-				$this->conn->query("DELETE FROM `stock_list` where id in ({$res['stock_ids']})");
+				$this->conn->query("DELETE FROM `stock_list` where id = ({$res['stock_ids']})");
 			}
 		}else{
 			$resp['status'] = 'failed';
@@ -742,6 +771,9 @@ switch ($action) {
 	case 'delete_receiving':
 		echo $Master->delete_receiving();
 	break;
+	case "delete_sale":
+		echo $Master->delete_sale();
+		break;
 	case 'save_return':
 		echo $Master->save_return();
 	break;
@@ -750,6 +782,10 @@ switch ($action) {
 	break;
 	case 'save_sale':
 		echo $Master->save_sale();
+
+	break;
+	case "checknumber":
+		echo $Master->checknumber();
 		
 
 	default:

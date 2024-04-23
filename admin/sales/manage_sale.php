@@ -35,11 +35,20 @@ if (isset($_GET['id'])) {
                         <input type="text" class="form-control form-control-sm rounded-0" value="<?php echo isset($sales_code) ? $sales_code : '' ?>" readonly>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="client" class="control-label text-info">Client Name</label>
-                            <input type="text" name="client" class="form-control form-control-sm rounded-0" value="<?php echo isset($client) ? $client : 'Guest' ?>">
+                            <div class="form-group">
+                                <label for="item_id" class="control-label">Client Name</label>
+                                <select  id="unit" class="custom-select select2 ">
+                   <option value="" selected>Choose the unit.</option>
+                   <?php 
+                        $supplier = $conn->query("SELECT * FROM `guests` ");
+                        while($row=$supplier->fetch_assoc()):
+                        ?>
+                        <option ><?php echo $row['guestn'] ?></option>
+                        <?php endwhile; ?>                       
+
+                        </select>
+                            </div>
                         </div>
-                    </div>
                 </div>
                 <hr>
                 <fieldset>
@@ -66,11 +75,23 @@ if (isset($_GET['id'])) {
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="unit" class="control-label">Unit</label>
-                                <input type="text" class="form-control rounded-0" id="unit">
+                        <div class="form-group">
+                        <label  style="margin-top:-205px;" for="supplier_id" class="control-label  ">Units</label>
+                        <select  id="unit" class="custom-select select2 ">
+                   <option value="" selected>Choose the unit.</option>
+                   <?php 
+                        $supplier = $conn->query("SELECT * FROM `unit` ");
+                        while($row=$supplier->fetch_assoc()):
+                        ?>
+                        <option ><?php echo $row['unit_name'] ?></option>
+                        <?php endwhile; ?>                       
+
+                        </select>
                             </div>
+                      
                         </div>
+
+
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="qty" class="control-label">Qty</label>
@@ -188,9 +209,10 @@ if (isset($_GET['id'])) {
         </td>
     </tr>
 </table>
+<!-- <?php echo json_encode($item_arr); ?> -->
 <script>
-    var items = $.parseJSON('<?php echo json_encode($item_arr) ?>')
-    var costs = $.parseJSON('<?php echo json_encode($cost_arr) ?>')
+    var items = <?php echo json_encode($item_arr); ?>;
+    var costs = <?php echo json_encode($cost_arr); ?>;
 
     $(function() {
         $('.select2').select2({
@@ -224,7 +246,6 @@ if (isset($_GET['id'])) {
                 method: 'POST',
                 type: 'POST',
                 success: function(resp) {
-                    alert(resp)
                     if (resp !== 0 && resp >= parseInt(qty)) {
                         if (item == '' || qty == '' || unit == '') {
 
@@ -266,7 +287,6 @@ if (isset($_GET['id'])) {
                     }
                 },
                 error: function(error) {
-                    alert("error", error)
                 }
             })
         })

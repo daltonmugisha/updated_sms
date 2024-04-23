@@ -7,7 +7,9 @@
         <label class="mx-2">Filter:</label>
         <select name="cat_id" id="cat_id" class="custom-select select2">
             <option <?php echo !isset($cat_id) ? 'selected' : 'a' ?> disabled>Select item category</option>
-            <?php 
+			<option value="all">All</option>
+
+		   <?php 
             $cat = $conn->query("SELECT * FROM `category` order by `name` asc");
             while($row=$cat->fetch_assoc()):
             ?>
@@ -55,17 +57,26 @@
 						$cat_id = isset($_GET['cat_id']) ? $_GET['cat_id'] : '';
 					
 						// Modify your SQL query accordingly
+						if($cat_id=="all"){
+				 
+							$qry = $conn->query("SELECT i.*, s.name as supplier, cat.name AS category_name FROM `item_list` i 
+							LEFT JOIN supplier_list s ON i.supplier_id = s.id 
+							LEFT JOIN category cat ON cat.id = i.cat_id 
+							ORDER BY i.name ASC, s.name ASC");
+						}else{
+						
 						$qry = $conn->query("SELECT i.*, s.name as supplier, cat.name AS category_name FROM `item_list` i 
 											INNER JOIN supplier_list s ON i.supplier_id = s.id 
 											INNER JOIN category cat ON cat.id = i.cat_id 
 											" . ($cat_id ? "WHERE i.cat_id = '$cat_id'" : "") . "
 											ORDER BY i.name ASC, s.name ASC");
-					} else {
-						// Fetch all items by default
+
+						}
+					}else{
 						$qry = $conn->query("SELECT i.*, s.name as supplier, cat.name AS category_name FROM `item_list` i 
-											INNER JOIN supplier_list s ON i.supplier_id = s.id 
-											INNER JOIN category cat ON cat.id = i.cat_id 
-											ORDER BY i.name ASC, s.name ASC");
+						LEFT JOIN supplier_list s ON i.supplier_id = s.id 
+						LEFT JOIN category cat ON cat.id = i.cat_id 
+						ORDER BY i.name ASC, s.name ASC");
 					}
 						while($row = $qry->fetch_assoc()):
 					?>

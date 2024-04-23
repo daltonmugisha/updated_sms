@@ -64,7 +64,10 @@
 <script>
 	$(document).ready(function(){
 		$('.delete_data').click(function(){
-			_conf("Are you sure to delete this Return Record permanently?","delete_return",[$(this).attr('data-id')])
+            setInterval(() => {
+                			_conf("Are you sure to delete this Return Record permanently?","delete_return",[$(this).attr('data-id')])
+
+            }, 1000);
 		})
 		$('.table td,.table th').addClass('py-1 px-2 align-middle')
 		$('.table').dataTable();

@@ -41,6 +41,7 @@
                                 <td><?php echo date("Y-m-d H:i",strtotime($row['date_created'])) ?></td>
                                 <td><?php echo $row['sales_code'] ?></td>
                                 <td><?php echo $row['client'] ?></td>
+                                <!-- <td class="text-right"><?php echo number_format($row['quantity']) ?></td> -->
                                 <td class="text-right"><?php echo number_format($row['items']) ?></td>
                                 <td class="text-right"><?php echo number_format($row['amount'],2) ?></td>
                                 <td align="center">
@@ -67,7 +68,11 @@
 <script>
 	$(document).ready(function(){
 		$('.delete_data').click(function(){
-			_conf("Are you sure to delete this Sales Record permanently?","delete_sale",[$(this).attr('data-id')])
+
+            setInterval(()=>{
+                			_conf("Are you sure to delete this Sales Record permanently?","delete_sale",[$(this).attr('data-id')])
+
+            },1000)
 		})
 		$('.table td,.table th').addClass('py-1 px-2 align-middle')
 		$('.table').dataTable();

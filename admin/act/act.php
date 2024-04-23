@@ -1,6 +1,6 @@
 <div class="card card-outline card-primary">
 	<div class="card-header">
-		<h3 class="card-title"><i class="fas fa-clock"></i> History</h3>
+		<h3 class="card-title"><i class="fas fa-clock"></i> My activity</h3>
         <div class="card-tools">
 			<!-- <a href="<?php echo base_url ?>admin/?page=purchase_order/manage_po" class="btn btn-flat btn-primary"><span class="fas fa-plus"></span>  Create New</a> -->
 		</div>
@@ -29,7 +29,8 @@
                     <tbody>
                         <?php 
                         $i = 1;
-                        $qry = $conn->query("SELECT h.*, u.firstname as username, u.lastname as username2  , u.avatar as profile FROM `history` h inner join users u on h.owner = u.id order by h.`date` desc");
+						$userId = isset($_SESSION['userdata']['id']) ? $_SESSION['userdata']['id'] : 0; // Assuming 'id' is the correct key in your session array
+                        $qry = $conn->query("SELECT h.*, u.firstname as username, u.lastname as username2  , u.avatar as profile FROM `history` h inner join users u on h.owner = u.id WHERE u.id = '$userId' order by h.`date` desc");
                         while($row = $qry->fetch_assoc()):
                         ?>
                             <tr>

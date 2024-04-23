@@ -1,14 +1,20 @@
 <div class="card card-outline card-primary">
 	<div class="card-header">
-		<h3 class="card-title"><i class="fas fa-clock"></i> History</h3>
+		<h3 class="card-title"><i class="fas fa-circle"></i> Add all the Guests you will be receiving.</h3>
         <div class="card-tools">
 			<!-- <a href="<?php echo base_url ?>admin/?page=purchase_order/manage_po" class="btn btn-flat btn-primary"><span class="fas fa-plus"></span>  Create New</a> -->
 		</div>
 	</div>
 	<div class="card-body">
-		<div class="container-fluid">
-        <div class="container-fluid">
-			<table class="table table-bordered table-stripped">
+		<div>
+			<form  method="post" action="http://localhost:8080/sms/admin/?page=gu/action">
+				<input class='form-control ' name="guests"  style="width:40%"/>
+				<button type="submit" name="submit" class="btn btn-primary my-2">ADD NEW UNIT</button>
+			</form>
+		</div>
+
+		
+		<table class="table table-bordered table-stripped">
                     <colgroup>
                         <col width="5%">
                         <col width="35%">
@@ -19,26 +25,27 @@
                     </colgroup>
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Date Created</th>
-                            <th>Name</th>
-                            <th>Activity_performed</th>
+                            <th>#index</th>
+                            <th>The Quantity</th>
+                            <th>Delete</th>
                            
                         </tr>
                     </thead>
                     <tbody>
                         <?php 
                         $i = 1;
-                        $qry = $conn->query("SELECT h.*, u.firstname as username, u.lastname as username2  , u.avatar as profile FROM `history` h inner join users u on h.owner = u.id order by h.`date` desc");
+                        $qry = $conn->query("SELECT * FROM guests");
+						$count = 1 ; 
                         while($row = $qry->fetch_assoc()):
                         ?>
                             <tr>
-                                <td class="text-center"><?php echo $i++; ?></td>
-                                <td><?php echo date("Y-m-d H:i",strtotime($row['date'])) ?></td>
-                                <td> <img src="<?php echo validate_image($row['profile']) ?>" style="width: 30px;height:30px;" class="img-avatar img-thumbnail p-0 border-2" alt="user_avatar">  <?php echo $row['username'] ?> <?php echo $row['username2'] ?></td>
-                                <td><?php echo $row['history'] ?></td>
-                               
-                                      
+                                <td class="text-center"><?php echo $count++; ?></td>
+                                <td><?php echo $row['guestn'] ?></td>
+                                <td><form  method="post" action="http://localhost:8080/sms/admin/?page=gu/action">
+				<input class='form-control' name="deletei" value="<?php echo $row['guestn'] ?>" hidden style="width:40%"/>
+				<button type="submit" name="delete" class="btn btn-danger my-2">DELETE</button>
+			</form></td>
+       
                               
                                 
                             </tr>
@@ -46,6 +53,8 @@
                     </tbody>
                 </table>
 		</div>
+		
+
 		</div>
 	</div>
 </div>
@@ -83,3 +92,12 @@
 		})
 	}
 </script>
+
+<!-- HTML form -->
+<!-- <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+    <input type="text" name="item_name" placeholder="Item Name">
+    <input type="text" name="item_price" placeholder="Item Price">
+    <input type="submit" name="submit" value="Add Item">
+</form> -->
+
+
