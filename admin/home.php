@@ -4,7 +4,7 @@
     <?php echo $_settings->info('name') ?>
 </h1>
 
-<a style="background-color: white;" class="btn rounded-pill" href="">📅Your calendar</a> <a style="background-color: white;" class="btn rounded-pill" href="">📚 New item</a>
+<a style="background-color: white;" class="btn rounded-pill" href="http://localhost:8080/sms/admin/?page=calendar/calendar">📅Your calendar</a> <a style="background-color: white;" class="btn rounded-pill" href="http://localhost:8080/sms/admin/?page=maintenance/item">📚 New item</a>
 
     </div>
     <div style="background-color: white; padding:5px;display:flex; border-radius:5px;" class="  shadow rounded-3">

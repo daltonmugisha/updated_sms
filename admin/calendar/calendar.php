@@ -1,5 +1,7 @@
+<div class="card card-outline card-primary">
 <div id='calendar'></div>
 
+</div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   var calendarEl = document.getElementById('calendar');
@@ -7,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
     height: 650,
-    events: 'fetchEvents.php',
+    events: 'http://localhost:8080/sms/classes/fetchEvents.php',
     
     selectable: true,
     select: async function (start, end, allDay) {
@@ -31,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
       });
 
       if (formValues) {
-        alert(formValues);
+        // alert(formValues);
         // Add event
         const forms =new FormData()
         forms.append("title", formValues[0])
@@ -39,17 +41,22 @@ document.addEventListener('DOMContentLoaded', function() {
         forms.append("url", formValues[2])
         forms.append("start", start.startStr)
         forms.append("end", start.endStr)
+        forms.append("type", "addEvent")
         
         console.log(formValues)
-        fetch("../classes/eventHandler.php", {
-    method: "POST",
-    headers: { "Content-Type": "multipart/form-data" },
-    body: forms
-})
+        axios.post("http://localhost:8080/sms/classes/eventHandler.php", forms ,{
+          headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+        })
 .then(response => {
-    if (!response.ok) {
+  if (response.status !== 200) {
         throw new Error('Network response was not ok');
+    }else{
+      Swal.fire("The event has been added successful", '', 'success')
     }
+    calendar.refetchEvents();
+
     console.log(response.data);
 })
 
@@ -79,19 +86,25 @@ document.addEventListener('DOMContentLoaded', function() {
       }).then((result) => {
         if (result.isConfirmed) {
           // Delete event
-          fetch("eventHandler.php", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ request_type:'deleteEvent', event_id: info.event.id}),
-          })
-          .then(response => response.json())
-          .then(data => {
-            if (data.status == 1) {
-              Swal.fire('Event deleted successfully!', '', 'success');
-            } else {
-              Swal.fire(data.error, '', 'error');
-            }
+          const forms =new FormData()
+        forms.append("id", info.event.id)
 
+        forms.append("type", "deleteEvent")
+        
+        // console.log(formValues)
+        axios.post("http://localhost:8080/sms/classes/eventHandler.php", forms ,{
+          headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+        })
+          
+          .then(response => response)
+          .then(data => {
+       
+              Swal.fire('Event deleted successfully!', '', 'success');
+              calendar.refetchEvents();
+
+            
             // Refetch events from all sources and rerender
             calendar.refetchEvents();
           })
@@ -116,22 +129,31 @@ document.addEventListener('DOMContentLoaded', function() {
           }).then((result) => {
             if (result.value) {
               // Edit event
-              fetch("eventHandler.php", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ request_type:'editEvent', start:info.event.startStr, end:info.event.endStr, event_id: info.event.id, event_data: result.value})
-              })
-              .then(response => response.json())
-              .then(data => {
-                if (data.status == 1) {
-                  Swal.fire('Event updated successfully!', '', 'success');
-                } else {
-                  Swal.fire(data.error, '', 'error');
-                }
+              const forms =new FormData()
+        forms.append("title", result.value[0])
+        forms.append("description", result.value[1])
+        forms.append("url", result.value[2])
+        forms.append("start", info.event.startStr)
+        forms.append("end", info.event.endStr)
+        forms.append("id", info.event.id)
+        forms.append("type", "editEvent")
+        
+        axios.post("http://localhost:8080/sms/classes/eventHandler.php", forms ,{
+          headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+        })
+.then(response => {
+  if (response.status !== 200) {
+        throw new Error('Network response was not ok');
+    }else{
+      Swal.fire("The event has been edited successful", '', 'success')
+    }
+    calendar.refetchEvents();
 
-                // Refetch events from all sources and rerender
-                calendar.refetchEvents();
-              })
+    console.log(response.data);
+})
+
               .catch(console.error);
             }
           });
@@ -141,7 +163,6 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     }
   });
-
   calendar.render();
 });
 </script>

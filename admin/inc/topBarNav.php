@@ -50,13 +50,14 @@
         </form>
       </div>
     </li>
+    <a href="http://localhost:8080/sms/admin/?page=Notification/Notification">
     <li style="position: relative;" class="nav-item">
-      <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+      <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="http://localhost:8080/sms/admin/?page=Notification/Notification" role="button">
         <i style="font-size:20px; " class="fas fa-bell text-dark"></i>
 
       </a>
       <p style="background:red;display:inline-block;border-radius:100px;font-size:10;padding-inline:7px;position:absolute;top:0;right:0;color:white;">1</p>
-    </li>
+    </li></a>
     <!-- Messages Dropdown Menu -->
     <li class="nav-item">
 

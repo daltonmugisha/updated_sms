@@ -71,10 +71,20 @@ if(isset($_GET['id'])){
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="unit" class="control-label">Unit</label>
-                                <input type="text" class="form-control rounded-0" id="unit">
+                        <div class="form-group">
+                        <label  style="margin-top:-205px;" for="supplier_id" class="control-label  ">Units</label>
+                        <select  id="unit" class="custom-select select2 ">
+                   <option value="" selected>Choose the unit.</option>
+                   <?php 
+                        $supplier = $conn->query("SELECT * FROM `unit` ");
+                        while($row=$supplier->fetch_assoc()):
+                        ?>
+                        <option ><?php echo $row['unit_name'] ?></option>
+                        <?php endwhile; ?>                       
+
+                        </select>
                             </div>
+                      
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
