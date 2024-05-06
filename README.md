@@ -52,10 +52,10 @@ Generate report
 undone pages
 *************
 
-Notification
-Financial report
-Search
-My design
+Notification,
+Financial report,
+Search,
+My design,
 
 The rest can be designed with no backend features
 You can take like two hrs to understand everything
