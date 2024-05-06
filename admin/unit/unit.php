@@ -8,13 +8,14 @@
 	<div class="card-body">
 		<div>
 			<form  method="post" action="http://localhost:8080/sms/admin/?page=unit/action">
-				<input class='form-control ' name="item_unit"  style="width:40%"/>
-				<button type="submit" name="submit" class="btn btn-primary my-2">ADD NEW UNIT</button>
+				<input id="unit_input" class='form-control ' name="item_unit"  style="width:40%" requierd/>
+				<button id="submit_button" type="submit" name="submit" class="btn btn-primary my-2" disabled>ADD NEW UNIT</button>
 			</form>
 		</div>
 
 		
-		<table class="table table-bordered table-stripped">
+	<div >
+	<table style='width:100%' class="table w-100 text-center table-bordered table-stripped">
                     <colgroup>
                         <col width="5%">
                         <col width="35%">
@@ -43,7 +44,7 @@
                                 <td><?php echo $row['unit_name'] ?></td>
                                 <td><form  method="post" action="http://localhost:8080/sms/admin/?page=unit/action">
 				<input class='form-control' name="deletei" value="<?php echo $row['unit_name'] ?>" hidden style="width:40%"/>
-				<button type="submit" name="delete" class="btn btn-danger my-2">DELETE</button>
+				<button type="submit" name="delete" class="btn btn-danger my-2 rounded-pill">DELETE</button>
 			</form></td>
        
                               
@@ -52,6 +53,7 @@
                         <?php endwhile; ?>
                     </tbody>
                 </table>
+	</div>
 		</div>
 		
 
@@ -91,6 +93,17 @@
 			}
 		})
 	}
+</script>
+<script>
+    document.getElementById("unit_input").addEventListener("input", function() {
+        var input = document.getElementById("unit_input").value.trim();
+        var submitButton = document.getElementById("submit_button");
+        if (input.length > 0) {
+            submitButton.disabled = false;
+        } else {
+            submitButton.disabled = true;
+        }
+    });
 </script>
 
 <!-- HTML form -->

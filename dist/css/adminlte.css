@@ -66,7 +66,7 @@ body {
   line-height: 1.5;
   color: #212529;
   text-align: left;
-  background-color: #fff;
+  background-color: #f6f9ff;
 }
 
 [tabindex="-1"]:focus:not(:focus-visible) {
@@ -10481,11 +10481,10 @@ body:not(.layout-fixed).layout-navbar-fixed.text-sm .wrapper .main-sidebar .side
 }
 
 .layout-navbar-fixed .wrapper .main-header {
-  left: 0;
-  position: fixed;
-  right: 0;
-  top: 0;
-  z-index: 1033;
+
+  background-color: white !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  border-color: rgba(0, 0, 0, 0.1);
 }
 
 .layout-navbar-fixed.text-sm .wrapper .content-wrapper {
@@ -11664,6 +11663,8 @@ body.sidebar-collapse:not(.sidebar-mini-md):not(.sidebar-mini) .main-header::bef
 
 .form-control-navbar {
   border-right-width: 0;
+  width:100%;
+  
 }
 
 .form-control-navbar + .input-group-append {
@@ -32971,4 +32972,22 @@ a.text-muted:hover {
   }
 }
 
-/*# sourceMappingURL=adminlte.css.map */
+.theUSERbutton{
+  background:white;
+  width:300px;
+  
+}
+.theUSERbutton p{
+  margin-left:20px;
+}
+.theUSERbutton img{
+  height:80px;
+  width:80px;
+  margin-left:16px;
+}
+
+.message-home{
+  display:flex;
+  justify-content:space-between;
+  
+}

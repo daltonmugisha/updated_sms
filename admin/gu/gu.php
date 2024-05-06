@@ -8,8 +8,8 @@
 	<div class="card-body">
 		<div>
 			<form  method="post" action="http://localhost:8080/sms/admin/?page=gu/action">
-				<input class='form-control ' name="guests"  style="width:40%"/>
-				<button type="submit" name="submit" class="btn btn-primary my-2">ADD NEW UNIT</button>
+				<input id="unit_input" class='form-control ' name="guests"  style="width:40%"/>
+				<button id="submit_button"  type="submit" name="submit" class="btn btn-primary my-2 " disabled>ADD NEW GUISTEE</button>
 			</form>
 		</div>
 
@@ -91,8 +91,19 @@
 			}
 		})
 	}
+	
 </script>
-
+<script>
+    document.getElementById("unit_input").addEventListener("input", function() {
+        var input = document.getElementById("unit_input").value.trim();
+        var submitButton = document.getElementById("submit_button");
+        if (input.length > 0) {
+            submitButton.disabled = false;
+        } else {
+            submitButton.disabled = true;
+        }
+    });
+</script>
 <!-- HTML form -->
 <!-- <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
     <input type="text" name="item_name" placeholder="Item Name">

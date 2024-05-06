@@ -4,7 +4,7 @@
         <!-- Brand Logo -->
         <a href="<?php echo base_url ?>admin" class="brand-link bg-primary text-sm">
         <img src="<?php echo validate_image($_settings->info('logo'))?>" alt="Store Logo" class="brand-image img-circle elevation-3 bg-black" style="width: 1.8rem;height: 1.8rem;max-height: unset">
-        <span class="brand-text font-weight-light"><?php echo $_settings->info('short_name') ?></span>
+        <span class="brand-text font-weight-light"><?php echo $_settings->info('short_name'); ?></span>
         </a>
         <!-- Sidebar -->
         <div class="sidebar os-host os-theme-light os-host-overflow os-host-overflow-y os-host-resize-disabled os-host-transition os-host-scrollbar-horizontal-hidden">
@@ -80,6 +80,14 @@
                         </p>
                       </a>
                     </li>
+                    <li class="nav-item dropdown">
+                      <a href="<?php echo base_url ?>admin/?page=calendar/calendar" class="nav-link nav-link  <?php echo isset($_GET['page']) && $_GET['page'] == 'calendar/calendar' ? 'active' : ''; ?> ">
+                        <i class="nav-icon fas fa-calendar"></i>
+                        <p>
+                        Calendar
+                        </p>
+                      </a>
+                    </li>
                     <?php if($_settings->userdata('type') == 1): ?>
                     <li class="nav-header">Maintenance</li>
                     <li class="nav-item dropdown">
@@ -130,14 +138,7 @@
                         </p>
                       </a>
                     </li>
-                    <li class="nav-item dropdown">
-                      <a href="<?php echo base_url ?>admin/?page=system_info" class="nav-link nav-system_info ">
-                        <i class="nav-icon fas fa-cogs"></i>
-                        <p>
-                          Settings
-                        </p>
-                      </a>
-                    </li>
+                    
                     <li class="nav-item dropdown  ">
                     <a href="<?php echo base_url ?>admin/?page=maintenance/report" class="nav-link  <?php echo isset($_GET['page']) && $_GET['page'] == 'maintenance/report' ? 'active' : ''; ?>">
                         <i class="nav-icon far fa-newspaper	"></i>
@@ -151,6 +152,14 @@
                         <i class="nav-icon fas fa-circle"></i>
                         <p>
                           Units Lists
+                        </p>
+                      </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                      <a href="<?php echo base_url ?>admin/?page=system_info" class="nav-link nav-system_info ">
+                        <i class="nav-icon fas fa-cogs"></i>
+                        <p>
+                          Settings
                         </p>
                       </a>
                     </li>

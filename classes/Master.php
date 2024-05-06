@@ -198,6 +198,16 @@ Class Master extends DBConnection {
 		return json_encode($resp);
 
 	}
+	function account_school_setUp(){
+
+		$schoolName = $_POST['school'];
+		$schoolNumber = $_POST['number'];
+		$location = $_POST['location'];
+		$schoolAdmin = $_POST['admin_name'];
+		$schoolWhereFrom = $_POST['where'];
+		
+		
+	}
 	function save_po(){
 		if(empty($_POST['id'])){
 			$prefix = "PO";
@@ -746,6 +756,9 @@ switch ($action) {
 	break;
 	case 'delete_supplier':
 		echo $Master->delete_supplier();
+	break;
+	case 'account_school_setUp':
+		echo $Master->account_school_setUp();
 	break;
 	case 'save_item':
 		echo $Master->save_item();
