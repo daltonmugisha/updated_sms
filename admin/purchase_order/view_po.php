@@ -17,12 +17,22 @@ if($qry->num_rows >0){
                     <label class="control-label text-info">P.O. Code</label>
                     <div><?php echo isset($po_code) ? $po_code : '' ?></div>
                 </div>
-                <div class="col-md-6">
+                <div style="display: flex; justify-content:space-between" class="col-md-6 ">
                     <div class="form-group">
                         <label for="supplier_id" class="control-label text-info">Supplier</label>
                         <div><?php echo isset($supplier) ? $supplier : '' ?></div>
                     </div>
+                    <div class="form-group">
+                        <label for="supplier_id" class="control-label text-info">Date</label>
+                        <div><?php echo isset($date_created) ? $date_created : '' ?></div>
+                    </div>
                 </div>
+                <!-- <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="supplier_id" class="control-label text-info">Date</label>
+                        <div><?php echo isset($date_created) ? $date_created : '' ?></div>
+                    </div>
+                </div> -->
             </div>
             <h4 class="text-info">Orders</h4>
             <table class="table table-striped table-bordered" id="list">

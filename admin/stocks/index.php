@@ -39,7 +39,7 @@
                                 <td><?php echo $row['name'] ?></td>
                                 <td><?php echo $row['supplier'] ?></td>
                                 <td><?php echo $row['description'] ?></td>
-                                <td class="text-right"><?php echo number_format($row['available']) ?></td>
+                                <td  class="text-right"><p style="color:white;background:blue;display:inline-block;padding-inline:5px; border-radius:10px;"><?php echo number_format($row['available']) ?> items</p></td>
                             </tr>
                         <?php endwhile; ?>
                     </tbody>

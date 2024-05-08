@@ -43,7 +43,7 @@
                                 <td><?php echo $row['guestn'] ?></td>
                                 <td><form  method="post" action="http://localhost:8080/sms/admin/?page=gu/action">
 				<input class='form-control' name="deletei" value="<?php echo $row['guestn'] ?>" hidden style="width:40%"/>
-				<button type="submit" name="delete" class="btn btn-danger my-2">DELETE</button>
+				<button type="submit" name="delete" class="btn btn-danger my-2 rounded-pill">DELETE</button>
 			</form></td>
        
                               

@@ -7,12 +7,102 @@
 <a style="background-color: white;" class="btn rounded-pill" href="http://localhost:8080/sms/admin/?page=calendar/calendar">📅Your calendar</a> <a style="background-color: white;" class="btn rounded-pill" href="http://localhost:8080/sms/admin/?page=maintenance/item">📚 New item</a>
 
     </div>
+    <?php 
+                        $i = 1;
+                        $money =  0 ;
+                        $qry = $conn->query("SELECT * FROM `sales_list` order by `date_created` desc");
+                        while($row = $qry->fetch_assoc()):
+                           $money = $money + $row['amount'] ;
+                     
+                        ?> 
+                        <?php  endwhile ; ?>
     <div style="background-color: white; padding:5px;display:flex; border-radius:5px;" class="  shadow rounded-3">
-        <a style="margin-top: 5px;font-weight:bold" class="text-dark " href=""> 500 5000 frw <br>
-   <span style="color:green; font-size:12px;"> 18% <i class="fas fa-chart-line "></i></span>
+        <a style="margin-top: 5px;font-weight:bold" class="text-dark " href=""> <?php echo $money ?> frw <br>
+   <span >
+
+   <?php
+// Fetch old money
+$currentMonth = date('Y-m');
+
+// Construct the query to select records for the current month
+$oldMoneyQuery = "SELECT * FROM `sales_list` WHERE DATE_FORMAT(`date_created`, '%Y-%m') = '$currentMonth' ORDER BY `date_created` DESC ";
+
+// Execute the query
+$oldMoneyResult = $conn->query($oldMoneyQuery);
+
+// Initialize moneynew variable
+$moneynew = 0;
+
+// Check if there are any records returned
+if ($oldMoneyResult->num_rows > 0) {
+    // Loop through the results and calculate the total amount
+    while ($row = $oldMoneyResult->fetch_assoc()) {
+        $moneynew += $row['amount'];
+    }
+    // echo "Money is " . $moneynew;
+
+    // Fetch old money
+    // Get the current month and year
+    $currentMonth = date('m');
+    $currentYear = date('Y');
+
+    // Calculate the previous month and year
+    if ($currentMonth == 1) {
+        // If the current month is January, the previous month is December of the previous year
+        $previousMonth = 12;
+        $previousYear = $currentYear - 1;
+    } else {
+        // Otherwise, the previous month is the month before the current month
+        $previousMonth = $currentMonth - 1;
+        $previousYear = $currentYear;
+    }
+
+    // Format the previous month and year as 'YYYY-MM'
+    $previousMonthYear = sprintf("%04d-%02d", $previousYear, $previousMonth);
+    // $previousMonthYear = date('Y-m'); // This line seems redundant
+
+    $newMoneyQuery = "SELECT * FROM `sales_list` WHERE DATE_FORMAT(`date_created`, '%Y-%m') = '$previousMonthYear' ORDER BY `date_created` DESC ";
+    $newMoneyResult = $conn->query($newMoneyQuery);
+
+    // Loop through the results and calculate the total amount
+    $oldmoneey = 0;
+    while ($row = $newMoneyResult->fetch_assoc()) {
+        $oldmoneey += $row['amount'];
+    }
+    // echo "Old money is " . $oldmoneey;
+
+    // Old money
+    $oldMoney = $oldmoneey; // PHP
+
+    // New money
+    $newMoney = $moneynew; // PHP
+
+    // Calculate percentage change
+    if ($oldMoney != 0) {
+        $percentageChange = (($newMoney - $oldMoney) / $oldMoney) * 100;
+
+        // Check if there's been a gain or loss
+        if ($percentageChange > 0) {
+            echo "<span style='color:green; font-size:12px;'>" . round($percentageChange,3) . "% <i class='fas fa-chart-line '></i></span>";
+        } elseif ($percentageChange < 0) {
+            echo " <span style='color:red; font-size:12px;'>" . abs(round($percentageChange,3)) . "% <i class='fas fa-chart-line'></i></span>  ";
+        } else {
+            echo "No percentage change";
+        }
+    } else {
+        echo "Old money is zero, cannot calculate percentage change.";
+    }
+} else {
+    echo "No records found for the current month.";
+}
+?> </span>
     </a>
         <div class="mx-3" style="margin-top:8px;">
-        <a class="btn btn-flat btn-primary" href="">Get financial report</a>
+        <?php
+
+// echo "Previous Month and Year: " . $previousMonthYear . "<br>";
+        ?>
+        <a class="btn btn-flat btn-primary" href="<?php echo base_url ?>admin/?page=maintenance/report">Get report</a>
         </div>
     </div>
 </div>

@@ -91,8 +91,8 @@
             Account</a>
           <div  class="dropdown-divider"></div>
 
-          <a style="padding-block:0 !important;margin-block:0;" class="dropdown-item" href="<?php echo base_url . 'admin/?page=user' ?>"><span class="	fas fa-align-left"></span>
-            My Design</a>
+          <!-- <a style="padding-block:0 !important;margin-block:0;" class="dropdown-item" href="<?php echo base_url . 'admin/?page=user' ?>"><span class="	fas fa-align-left"></span>
+            My Design</a> -->
           <div class="dropdown-divider"></div>
 
           <a style="padding-block:0;margin:0; "  class="dropdown-item" href="<?php echo base_url . 'admin/?page=user' ?>"><span class="fas fa-book	  "></span>
@@ -104,7 +104,7 @@
 
 
           <div class="dropdown-divider"></div>
-          <p class="Product">A product of Switchiify Inc, 2024</p>
+          <p class="Product fw-bold text-muted">A product of Switchiify Inc, 2024</p>
           <a style="padding-block:0;margin:0; "  class="dropdown-item" href="<?php echo base_url . '/classes/Login.php?f=logout' ?>"><span
               class="fas fa-sign-out-alt"></span> Logout</a>
         </div>

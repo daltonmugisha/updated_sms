@@ -41,10 +41,13 @@
     }
 }
 </style>
+<div class="alert alert-warning" role="alert">
+This report by default, it displays the current month's information.
+</div>
 <div class="card card-outline card-primary">
 	<div class="card-header">	
 		<h2 style="font-weight: bold;font-size:20px;" class="card-title fw-bold">Report Generator</h2>
-	
+		
 		<div class="card-tools d-flex">
 		<form method="GET" class="d-flex" action="./">
     <div class="d-flex align-items-center justify-content-center">
@@ -731,10 +734,10 @@ echo $sum;
     <h3>Graphs</h3>
 
     <div class="row">
-        <div class="col">
+        <div  class="col">
             <center><h4>Category Chart | Recieved</h4></center>
        <div class="">
-	   <div id="chart" class="bg-light p-3 rounded-5">
+	   <div id="chart"  class="bg-light p-3 rounded-5">
             </div>
        </div>
         </div>
@@ -875,7 +878,29 @@ charts.render();
   function printModalContent() {
     var modalBodyContent = document.querySelector('.modal-body').innerHTML;
     var printWindow = window.open('', '_blank');
-    printWindow.document.write('<html><head><title>Print Modal Content</title></head><body>');
+	printWindow.document.write('<html><head>\
+    <meta charset="utf-8">\
+    <meta name="viewport" content="width=device-width, initial-scale=1">\
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback"> \
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts">\
+    <link rel="stylesheet" href="http://localhost:8080/sms/plugins/fontawesome-free/css/all.min.css">\
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">\
+    <link rel="stylesheet" href="http://localhost:8080/sms/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">\
+    <link rel="stylesheet" href="http://localhost:8080/sms/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">\
+    <link rel="stylesheet" href="http://localhost:8080/sms/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">\
+    <link rel="stylesheet" href="http://localhost:8080/sms/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">\
+    <link rel="stylesheet" href="http://localhost:8080/sms/plugins/select2/css/select2.min.css">\
+    <link rel="stylesheet" href="http://localhost:8080/sms/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">\
+    <link rel="stylesheet" href="http://localhost:8080/sms/plugins/icheck-bootstrap/icheck-bootstrap.min.css">\
+    <link rel="stylesheet" href="http://localhost:8080/sms/plugins/jqvmap/jqvmap.min.css">\
+    <link rel="stylesheet" href="http://localhost:8080/sms/dist/css/adminlte.css">\
+    <link rel="stylesheet" href="http://localhost:8080/sms/dist/css/custom.css">\
+    <link rel="stylesheet" href="http://localhost:8080/sms/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">\
+    <link rel="stylesheet" href="http://localhost:8080/sms/plugins/daterangepicker/daterangepicker.css">\
+    <link rel="stylesheet" href="http://localhost:8080/sms/plugins/summernote/summernote-bs4.min.css">\
+    <link rel="stylesheet" href="http://localhost:8080/sms/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">\
+</head><body>');
+     printWindow.document.write('<style>table { width: 100%;border-collapse: collapse;}th, td {border: 1px solid #dddddd;padding: 8px;text-align: left;}th { background-color: #f2f2f2;}</style>')
     printWindow.document.write(modalBodyContent);
     printWindow.document.write('</body></html>');
     printWindow.document.close();

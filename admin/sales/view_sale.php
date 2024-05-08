@@ -17,10 +17,14 @@ if($qry->num_rows >0){
                     <label class="control-label text-info">Sales Code</label>
                     <div><?php echo isset($sales_code) ? $sales_code : '' ?></div>
                 </div>
-                <div class="col-md-6">
+                <div style="display: flex; justify-content:space-between" class="col-md-6">
                     <div class="form-group">
                         <label for="client" class="control-label text-info">Client Name</label>
                         <div><?php echo isset($client) ? $client : '' ?></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="supplier_id" class="control-label text-info">Date</label>
+                        <div><?php echo isset($date_created) ? $date_created : '' ?></div>
                     </div>
                 </div>
             </div>
