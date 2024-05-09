@@ -1,3 +1,9 @@
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Hello!</strong> To add an item, make sure there is a category of that items existing in category list and also supplier/ Kongeramo igikoresho genzura niba hari category yacyo ndeste nubazanira icyo gikoresho
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 <div class="card card-outline card-primary">
 	<div class="card-header">	
 		<h3 class="card-title">List of Item</h3>

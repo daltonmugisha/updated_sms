@@ -37,8 +37,26 @@
       <div class="d-flex navbar-search-block">
         <form class="form-inline">
           <div class="input-group input-group-sm">
-            <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-            <div class="input-group-append">
+          <div class="search_groupe" id="search_groupe">
+
+<form action="search"  class="bd-search">
+
+
+
+<input type="search" class="form-control" value="<?php 
+if(isset($_SESSION['BACKAGAINvivi'])){
+echo $_SESSION['BACKAGAINvivi'];
+}
+else{
+echo "";
+}
+
+?>" name="results" id="input" placeholder="Search..." autocomplete="off" placeholder="Example input placeholder">
+
+</form>
+ 
+</div>
+        <div class="input-group-append">
               <button class="btn btn-navbar" type="submit">
                 <i class="fas fa-search"></i>
               </button>
@@ -50,14 +68,13 @@
         </form>
       </div>
     </li>
-    <a href="http://localhost:8080/sms/admin/?page=Notification/Notification">
     <li style="position: relative;" class="nav-item">
-      <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="http://localhost:8080/sms/admin/?page=Notification/Notification" role="button">
-        <i style="font-size:20px; " class="fas fa-bell text-dark"></i>
+      <a class="nav-link" data-widget="control-sidebar" onclick="location.href='?page=h/help'" data-slide="true" href="?page=Notification/Notification" role="button">
+        <i style="font-size:25px; " class="fas fa-question-circle text-dark"></i>
+      <p style="background:red;display:inline-block;border-radius:100px;font-size:10;padding-inline:7px;position:absolute;top:2px;right:10px;color:white;height:15px;width:12px"></p>
 
       </a>
-      <p style="background:red;display:inline-block;border-radius:100px;font-size:10;padding-inline:7px;position:absolute;top:0;right:0;color:white;">1</p>
-    </li></a>
+    </li>
     <!-- Messages Dropdown Menu -->
     <li class="nav-item">
 
@@ -95,11 +112,14 @@
             My Design</a> -->
           <div class="dropdown-divider"></div>
 
-          <a style="padding-block:0;margin:0; "  class="dropdown-item" href="<?php echo base_url . 'admin/?page=user' ?>"><span class="fas fa-book	  "></span>
-            Software news</a>
+          <a style="padding-block:0;margin:0; "  class="dropdown-item" href="<?php echo base_url . 'admin/?page=system_info' ?>"><i class="fas fa-cog "></i>
+            System setting</a>
+          <div class="dropdown-divider"></div>
+          <a style="padding-block:0;margin:0; "  class="dropdown-item" href="<?php echo base_url . 'admin/?page=unit/unit' ?>">
+          Units List</a>
           <div class="dropdown-divider"></div>
 
-          <a style="padding-block:0;margin:0; "  class="dropdown-item" href="<?php echo base_url . 'admin/?page=user' ?>"><span class="fa fa-newspaper-o	"></span>
+          <a style="padding-block:0;margin:0; "  class="dropdown-item" href="<?php echo base_url . 'admin/?page=h/help' ?>"><span class="fa fa-newspaper-o	"></span>
             Need help ?</a>
 
 
@@ -116,4 +136,162 @@
 
   </ul>
 </nav>
+
+<div style="" class="newsearch" id="newsearch" >
+      <h5 class="p-2">Search item, orders etc</h5>
+   
+ 
+    <ul class="list-group moresss" id="dropdown">
+  
+</ul>
+ 
+   <style>
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+
+  border-radius: 5px;
+
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--scrollo); 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollhover);
+}
+</style>
+<!-- <ul class="morest">
+  <li><a href="">wewe</a></li>
+  <li>Preveusie</li>
+  <li>Preveusie</li>
+  <li>Preveusie</li>
+  <li>Preveusie</li> <li>Preveusie</li>
+  <li>Preveusie</li>
+  <li>Preveusie</li>
+  <li>Preveusie</li>
+  <li>Preveusie</li>
+  <li>Preveusie</li>
+</ul> -->
+
+   
+  </div>
 <!-- /.navbar -->
+
+<script>
+      $(document).ready(function(){
+
+        
+        $(document).mouseup(function(e) 
+{
+    var container = $("#newsearch");
+
+    // if the target of the click isn't the container nor a descendant of the container
+    if (!container.is(e.target) && container.has(e.target).length === 0) 
+    {
+        container.hide();
+    }
+});  
+          function fetchData(){
+            var s = $("#input").val();
+            
+
+            if (s == '') {
+               $('#dropdown').css('display', 'none');
+             
+            }
+            $.post("http://localhost:8080/sms/classes/Api/auto_complet.php", 
+                  {
+                    search:s
+                  },
+             
+                  function(data, status){
+                   
+                      if (data != "not found") {
+                        $('#dropdown').css('display', 'block');
+                        $('#newsearch').css('display', 'block');
+                        $('#dropdown').html(data);
+                
+
+                       
+                      }else{
+                       
+    
+                      }
+                  });
+          }
+          $('#input').on('input', fetchData);
+         
+          $("jj").on('click', () => {
+            $('#dropdown').css('display', 'none');
+          });
+          $('#input').on('click', fetchData);
+
+
+          $('#searchbutton').on('click', function () {
+
+            
+          
+       
+            function myFunction(x) {
+            if(x.matches){ 
+             
+              $('.search_groupe').css('display', 'block');
+             $('#searchbutton').css('display', 'none');
+              $('#input').focus();
+            }else{
+            $('.search_groupe').css('display', 'block');
+             $('.back').css('display', 'none');
+             $('.logoo').css('display', 'block');
+             $('.navlogin').css('display', 'block');
+             $('.menu').css('display', 'none');
+             $('#searchbutton').css('display', 'none');
+            }
+          }
+            var x = window.matchMedia("(max-width:991px)")
+myFunction(x) // Call listener function at run time
+x.addListener(myFunction) // Attach listener function on state changes
+           
+           
+           
+          })
+          $('.back').on('click', function () {
+            $('#newsearch').css('display', 'none');
+            function myFunction(x) {
+  if (x.matches) { // If media query matches
+      $('.search_groupe').css('display', 'none');
+      $('.menu').css('display', 'block');
+      $('.back').css('display', 'none');
+             $('.logoo').css('display', 'block');
+             $('.navlogin').css('display', 'block');
+            
+             $('#searchbutton').css('display', 'block');
+  } else {
+    $('.search_groupe').css('display', 'block');
+    $('.menu').css('display', 'none');  $('.back').css('display', 'none');
+             $('.logoo').css('display', 'block');
+             $('.navlogin').css('display', 'block');
+            
+             $('#searchbutton').css('display', 'block');
+  }
+}
+
+var x = window.matchMedia("(max-width:991px)")
+myFunction(x) // Call listener function at run time
+x.addListener(myFunction) // Attach listener function on state changes
+           
+           
+           
+          })
+      });
+</script>

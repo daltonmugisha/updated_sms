@@ -1,3 +1,9 @@
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Hello!</strong> Here you add all your units you will be using so that you can select them next time you are going to use it/ Hano wongeramo units zose ukoresha kugirango utaza uhora uzandika.
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 <div class="card card-outline card-primary">
 	<div class="card-header">
 		<h3 class="card-title"><i class="fas fa-circle"></i> Add all the Units you will be using.</h3>
