@@ -39,13 +39,13 @@ $stocks = $qryStock->fetch_assoc();
 
             <div class="col-6">
                 <P>
-                <h5>All items available:</h5> <?php echo isset($stocks['quantity']) ? $stocks['quantity'] : ""; ?> items
+                <h5>All items available:</h5> <?php echo isset($stocks['quantity']) ? $stocks['quantity'] : "0"; ?> items
 
                 </P>
                 <p>
 
                 <h5> Stock price: </h5>
-                <?php echo isset($stocks['price']) ? $stocks['price'] : ""; ?>
+                <?php echo isset($stocks['price']) ? $stocks['price'] : "0"; ?> frw
 
                 </p>
 
