@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $eventTitle = $_POST['title'];
     $eventDesc = $_POST['description'];
-    $eventURL = $_POST['url'];
+    // $eventURL = $_POST['url'];
     $start = $_POST['start'];
     $end = $_POST['end'];
     $types = $_POST['type'];
@@ -20,9 +20,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
      
         if(!empty($eventTitle)){ 
             // Insert event data into the database 
-            $sqlQ = "INSERT INTO events (title,description,url,start,end) VALUES (?,?,?,?,?)"; 
+            $sqlQ = "INSERT INTO events (title,description,start,end) VALUES (?,?,?,?)"; 
             $stmt = $db->prepare($sqlQ); 
-            $stmt->bind_param("sssss", $eventTitle, $eventDesc, $eventURL, $start, $end); 
+            $stmt->bind_param("ssss", $eventTitle, $eventDesc,$start, $end); 
             $insert = $stmt->execute(); 
      
             if($insert){ 
@@ -41,9 +41,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
      
         if(!empty($eventTitle)){ 
             // Update event data into the database 
-            $sqlQ = "UPDATE events SET title=?,description=?,url=?,start=?,end=? WHERE id=?"; 
+            $sqlQ = "UPDATE events SET title=?,description=?,start=?,end=? WHERE id=?"; 
             $stmt = $db->prepare($sqlQ); 
-            $stmt->bind_param("sssssi", $eventTitle, $eventDesc, $eventURL, $start, $end, $event_id); 
+            $stmt->bind_param("ssssi", $eventTitle, $eventDesc,  $start, $end, $event_id); 
             $update = $stmt->execute(); 
      
             if($update){ 

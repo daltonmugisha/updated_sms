@@ -21,13 +21,13 @@ document.addEventListener('DOMContentLoaded', function() {
         html:
           '<input id="swalEvtTitle" class="swal2-input" placeholder="Enter title">' +
           '<textarea id="swalEvtDesc" class="swal2-input" placeholder="Enter description"></textarea>' +
-          '<input id="swalEvtURL" class="swal2-input" placeholder="Enter URL">',
+          '',
         focusConfirm: false,
         preConfirm: () => {
           return [
             document.getElementById('swalEvtTitle').value,
             document.getElementById('swalEvtDesc').value,
-            document.getElementById('swalEvtURL').value
+            // document.getElementById('swalEvtURL').value
           ]
         }
       });
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const forms =new FormData()
         forms.append("title", formValues[0])
         forms.append("description", formValues[1])
-        forms.append("url", formValues[2])
+        // forms.append("url", formValues[2])
         forms.append("start", start.startStr)
         forms.append("end", start.endStr)
         forms.append("type", "addEvent")
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
       Swal.fire({
         title: info.event.title,
         icon: 'info',
-        html:'<p>'+info.event.extendedProps.description+'</p><a href="'+info.event.url+'">Visit event page</a>',
+        html:'<p>'+info.event.extendedProps.description+'</p>',
         showCloseButton: true,
         showCancelButton: true,
         showDenyButton: true,
@@ -116,14 +116,14 @@ document.addEventListener('DOMContentLoaded', function() {
             html:
               '<input id="swalEvtTitle_edit" class="swal2-input" placeholder="Enter title" value="'+info.event.title+'">' +
               '<textarea id="swalEvtDesc_edit" class="swal2-input" placeholder="Enter description">'+info.event.extendedProps.description+'</textarea>' +
-              '<input id="swalEvtURL_edit" class="swal2-input" placeholder="Enter URL" value="'+info.event.url+'">',
+              '',
             focusConfirm: false,
             confirmButtonText: 'Submit',
             preConfirm: () => {
             return [
               document.getElementById('swalEvtTitle_edit').value,
               document.getElementById('swalEvtDesc_edit').value,
-              document.getElementById('swalEvtURL_edit').value
+              // document.getElementById('swalEvtURL_edit').value
             ]
             }
           }).then((result) => {
@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
               const forms =new FormData()
         forms.append("title", result.value[0])
         forms.append("description", result.value[1])
-        forms.append("url", result.value[2])
+        // forms.append("url", result.value[2])
         forms.append("start", info.event.startStr)
         forms.append("end", info.event.endStr)
         forms.append("id", info.event.id)
