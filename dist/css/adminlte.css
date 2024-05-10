@@ -32993,14 +32993,28 @@ a.text-muted:hover {
 }
 
 #newsearch{
-    background-color: white ;
-    height: 400px !important;
-    width: 300px ;
+    background-color: white !important ;
+    height:600px ;
+    width: 500px !important;
     position: fixed ;
-    margin-top: 0;
-    display: none;
-    right:20px;
+    top: 50px !important;
+    right:100px !important;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075);
     z-index:9999;
+    border-radius:5px;
+    overflow-y: scroll;
 
+}
+#newsearch .moresss{
+
+  background-color: white !important ;
+    height:600px ;
+    width: 500px !important;
+    position: fixed ;
+    top: 50px !important;
+    right:100px !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075);
+    z-index:9999;
+    border-radius:5px;
+    overflow-y: scroll;
 }

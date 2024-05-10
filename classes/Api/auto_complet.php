@@ -1,9 +1,10 @@
 <?php 
 include 'DB.php';
+echo "<h4 class='text-muted' style='margin-left:18px'>Search items and others</h4>";
 if (isset($_POST['search'])) {
   
         $search = mysqli_real_escape_string($conn,"%{$_POST['search']}%");  
-        $query = "SELECT * FROM item_list WHERE name LIKE '%$search%'  ORDER BY RAND() LIMIT 3 ";
+        $query = "SELECT * FROM item_list WHERE name LIKE '%$search%'  ORDER BY RAND() LIMIT 5 ";
         $result = mysqli_query($conn, $query);
         $found = mysqli_num_rows($result);
         if($found === 0){

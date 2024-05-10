@@ -136,11 +136,29 @@ echo "";
 
   </ul>
 </nav>
+<style>
+  
 
-<div style="" class="newsearch" id="newsearch" >
-      <h5 class="p-2">Search item, orders etc</h5>
+#newsearch{
+    background-color: white !important ;
+    height:400px ;
+    width: 500px !important;
+    position: fixed ;
+    top: 120px !important;
+    right:100px !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075);
+    z-index:9999;
+    border-radius:5px;
+    overflow-y: scroll;
+    display: none;
+
+
+}
+
+</style>
+<div  class="newsearch" id="newsearch" >
    
- 
+
     <ul class="list-group moresss" id="dropdown">
   
 </ul>
@@ -171,22 +189,9 @@ echo "";
   background: var(--scrollhover);
 }
 </style>
-<!-- <ul class="morest">
-  <li><a href="">wewe</a></li>
-  <li>Preveusie</li>
-  <li>Preveusie</li>
-  <li>Preveusie</li>
-  <li>Preveusie</li> <li>Preveusie</li>
-  <li>Preveusie</li>
-  <li>Preveusie</li>
-  <li>Preveusie</li>
-  <li>Preveusie</li>
-  <li>Preveusie</li>
-</ul> -->
 
    
   </div>
-<!-- /.navbar -->
 
 <script>
       $(document).ready(function(){
