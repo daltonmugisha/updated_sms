@@ -766,9 +766,7 @@ switch ($action) {
 	case 'delete_item':
 		echo $Master->delete_item();
 	break;
-	case 'get_item':
-		echo $Master->get_item();
-	break;
+	
 	case 'save_po':
 		echo $Master->save_po();
 	break;
