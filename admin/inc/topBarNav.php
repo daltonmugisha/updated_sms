@@ -21,9 +21,10 @@
       <a class="nav-link text-dark" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
     </li>
     <li style="display: flex;" class="nav-item  ">
-    <span style="font-size:20px;color:gray;font-weight:bold;padding-top:-20px !important;">STOKIFY</span>  
+      <span style="font-size:20px;color:gray;font-weight:bold;padding-top:-20px !important;">STOKIFY</span>
       <a href="<?php echo base_url ?>"
-        class="nav-link text-dark"><?php echo (!isMobileDevice()) ? $_settings->info('name') : $_settings->info('short_name'); ?> -
+        class="nav-link text-dark"><?php echo (!isMobileDevice()) ? $_settings->info('name') : $_settings->info('short_name'); ?>
+        -
         Admin</a>
     </li>
   </ul>
@@ -37,26 +38,25 @@
       <div class="d-flex navbar-search-block">
         <form class="form-inline">
           <div class="input-group input-group-sm">
-          <div class="search_groupe" id="search_groupe">
+            <div class="search_groupe" id="search_groupe">
 
-<form action="search"  class="bd-search">
+              <form action="search" class="bd-search">
 
 
 
-<input type="search" class="form-control" value="<?php 
-if(isset($_SESSION['BACKAGAINvivi'])){
-echo $_SESSION['BACKAGAINvivi'];
-}
-else{
-echo "";
-}
+                <input type="search" class="form-control" value="<?php
+                if (isset($_SESSION['BACKAGAINvivi'])) {
+                  echo $_SESSION['BACKAGAINvivi'];
+                } else {
+                  echo "";
+                }
 
-?>" name="results" id="input" placeholder="Search..." autocomplete="off" placeholder="Example input placeholder">
+                ?>" name="results" id="input" placeholder="Search..." autocomplete="off" placeholder="Example input placeholder">
 
-</form>
- 
-</div>
-        <div class="input-group-append">
+              </form>
+
+            </div>
+            <div class="input-group-append">
               <button class="btn btn-navbar" type="submit">
                 <i class="fas fa-search"></i>
               </button>
@@ -69,9 +69,12 @@ echo "";
       </div>
     </li>
     <li style="position: relative;" class="nav-item">
-      <a class="nav-link" data-widget="control-sidebar" onclick="location.href='?page=h/help'" data-slide="true" href="?page=Notification/Notification" role="button">
+      <a class="nav-link" data-widget="control-sidebar" onclick="location.href='?page=h/help'" data-slide="true"
+        href="?page=Notification/Notification" role="button">
         <i style="font-size:25px; " class="fas fa-question-circle text-dark"></i>
-      <p style="background:red;display:inline-block;border-radius:100px;font-size:10;padding-inline:7px;position:absolute;top:2px;right:10px;color:white;height:15px;width:12px"></p>
+        <p
+          style="background:red;display:inline-block;border-radius:100px;font-size:10;padding-inline:7px;position:absolute;top:2px;right:10px;color:white;height:15px;width:12px">
+        </p>
 
       </a>
     </li>
@@ -97,36 +100,41 @@ echo "";
               <span style="font-weight: bold;font-size:18px;"
                 class="ml-3 fw-bold fs-3"><?php echo ucwords($_settings->userdata('firstname') . ' ' . $_settings->userdata('lastname')) ?>
               </span>
-              <p style="margin-block:0;padding-block:0" class='ml-3'><?php echo   $_settings->info('short_name'); ?></p>
-              <p style="padding-top: -15px !important; color:green;" class='ml-3 p-0'>Users:  <?php
-                            echo $conn->query("SELECT * FROM `users` where id != 1 ")->num_rows;
-                            ?></p>
+              <p style="margin-block:0;padding-block:0" class='ml-3'><?php echo $_settings->info('short_name'); ?></p>
+              <p style="padding-top: -15px !important; color:green;" class='ml-3 p-0'>Users: <?php
+              echo $conn->query("SELECT * FROM `users` where id != 1 ")->num_rows;
+              ?></p>
             </div>
 
           </div>
-          <a style="padding-block:0 !important;margin:0; " class="dropdown-item" href="<?php echo base_url . 'admin/?page=user' ?>"><span class="fas fa-address-card	"></span> My
+          <a style="padding-block:0 !important;margin:0; " class="dropdown-item"
+            href="<?php echo base_url . 'admin/?page=user' ?>"><span class="fas fa-address-card	"></span> My
             Account</a>
-          <div  class="dropdown-divider"></div>
+          <div class="dropdown-divider"></div>
 
           <!-- <a style="padding-block:0 !important;margin-block:0;" class="dropdown-item" href="<?php echo base_url . 'admin/?page=user' ?>"><span class="	fas fa-align-left"></span>
             My Design</a> -->
           <div class="dropdown-divider"></div>
 
-          <a style="padding-block:0;margin:0; "  class="dropdown-item" href="<?php echo base_url . 'admin/?page=system_info' ?>"><i class="fas fa-cog "></i>
+          <a style="padding-block:0;margin:0; " class="dropdown-item"
+            href="<?php echo base_url . 'admin/?page=system_info' ?>"><i class="fas fa-cog "></i>
             System setting</a>
           <div class="dropdown-divider"></div>
-          <a style="padding-block:0;margin:0; "  class="dropdown-item" href="<?php echo base_url . 'admin/?page=unit/unit' ?>">
-          Units List</a>
+          <a style="padding-block:0;margin:0; " class="dropdown-item"
+            href="<?php echo base_url . 'admin/?page=unit/unit' ?>">
+            Units List</a>
           <div class="dropdown-divider"></div>
 
-          <a style="padding-block:0;margin:0; "  class="dropdown-item" href="<?php echo base_url . 'admin/?page=h/help' ?>"><span class="fa fa-newspaper-o	"></span>
+          <a style="padding-block:0;margin:0; " class="dropdown-item"
+            href="<?php echo base_url . 'admin/?page=h/help' ?>"><span class="fa fa-newspaper-o	"></span>
             Need help ?</a>
 
 
           <div class="dropdown-divider"></div>
           <p class="Product fw-bold text-muted">A product of Switchiify Inc, 2024</p>
-          <a style="padding-block:0;margin:0; "  class="dropdown-item" href="<?php echo base_url . '/classes/Login.php?f=logout' ?>"><span
-              class="fas fa-sign-out-alt"></span> Logout</a>
+          <a style="padding-block:0;margin:0; " class="dropdown-item"
+            href="<?php echo base_url . '/classes/Login.php?f=logout' ?>"><span class="fas fa-sign-out-alt"></span>
+            Logout</a>
         </div>
       </div>
     </li>
@@ -137,166 +145,116 @@ echo "";
   </ul>
 </nav>
 <style>
-  
-
-#newsearch{
-    background-color: white !important ;
-    height:400px ;
+  #newsearch {
+    background-color: white !important;
+    height: 400px;
     width: 500px !important;
-    position: fixed ;
+    position: fixed;
     top: 120px !important;
-    right:100px !important;
+    right: 100px !important;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075);
-    z-index:9999;
-    border-radius:5px;
+    z-index: 9999;
+    border-radius: 5px;
     overflow-y: scroll;
     display: none;
 
 
-}
-
+  }
 </style>
-<div  class="newsearch" id="newsearch" >
-   
+<div class="newsearch" id="newsearch">
 
-    <ul class="list-group moresss" id="dropdown">
-  
-</ul>
- 
-   <style>
-/* width */
-::-webkit-scrollbar {
-  width: 10px;
 
-  height: 10px;
-}
+  <ul class="list-group moresss" id="dropdown">
 
-/* Track */
-::-webkit-scrollbar-track {
+  </ul>
 
-  border-radius: 5px;
+  <style>
+    /* width */
+    ::-webkit-scrollbar {
+      width: 10px;
 
-}
- 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: var(--scrollo); 
-  border-radius: 10px;
-}
+      height: 10px;
+    }
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: var(--scrollhover);
-}
-</style>
+    /* Track */
+    ::-webkit-scrollbar-track {
 
-   
-  </div>
+      border-radius: 5px;
+
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+      background: var(--scrollo);
+      border-radius: 10px;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--scrollhover);
+    }
+  </style>
+
+
+</div>
 
 <script>
-      $(document).ready(function(){
+  $(document).ready(function () {
 
-        
-        $(document).mouseup(function(e) 
-{
-    var container = $("#newsearch");
 
-    // if the target of the click isn't the container nor a descendant of the container
-    if (!container.is(e.target) && container.has(e.target).length === 0) 
-    {
+    $(document).mouseup(function (e) {
+      var container = $("#newsearch");
+
+      // if the target of the click isn't the container nor a descendant of the container
+      if (!container.is(e.target) && container.has(e.target).length === 0) {
         container.hide();
+      }
+    });
+    function fetchData() {
+      var s = $("#input").val();
+
+
+      if (s == '') {
+        $('#dropdown').css('display', 'none');
+
+      }
+      $.post("http://localhost:8080/sms/classes/Api/auto_complet.php",
+        {
+          search: s
+        },
+
+        function (data, status) {
+
+          if (data != "not found") {
+            $('#dropdown').css('display', 'block');
+            $('#newsearch').css('display', 'block');
+            $('#dropdown').html(data);
+
+
+
+          } else {
+
+
+          }
+        });
     }
-});  
-          function fetchData(){
-            var s = $("#input").val();
-            
+    $('#input').on('input', fetchData);
 
-            if (s == '') {
-               $('#dropdown').css('display', 'none');
-             
-            }
-            $.post("http://localhost:8080/sms/classes/Api/auto_complet.php", 
-                  {
-                    search:s
-                  },
-             
-                  function(data, status){
-                   
-                      if (data != "not found") {
-                        $('#dropdown').css('display', 'block');
-                        $('#newsearch').css('display', 'block');
-                        $('#dropdown').html(data);
-                
+    $("jj").on('click', () => {
+      $('#dropdown').css('display', 'none');
+    });
+    $('#input').on('click', fetchData);
 
-                       
-                      }else{
-                       
-    
-                      }
-                  });
-          }
-          $('#input').on('input', fetchData);
+
+   
+
+
+
+     
+
          
-          $("jj").on('click', () => {
-            $('#dropdown').css('display', 'none');
-          });
-          $('#input').on('click', fetchData);
 
-
-          $('#searchbutton').on('click', function () {
-
-            
-          
-       
-            function myFunction(x) {
-            if(x.matches){ 
-             
-              $('.search_groupe').css('display', 'block');
-             $('#searchbutton').css('display', 'none');
-              $('#input').focus();
-            }else{
-            $('.search_groupe').css('display', 'block');
-             $('.back').css('display', 'none');
-             $('.logoo').css('display', 'block');
-             $('.navlogin').css('display', 'block');
-             $('.menu').css('display', 'none');
-             $('#searchbutton').css('display', 'none');
-            }
-          }
-            var x = window.matchMedia("(max-width:991px)")
-myFunction(x) // Call listener function at run time
-x.addListener(myFunction) // Attach listener function on state changes
-           
-           
-           
-          })
-          $('.back').on('click', function () {
-            $('#newsearch').css('display', 'none');
-            function myFunction(x) {
-  if (x.matches) { // If media query matches
-      $('.search_groupe').css('display', 'none');
-      $('.menu').css('display', 'block');
-      $('.back').css('display', 'none');
-             $('.logoo').css('display', 'block');
-             $('.navlogin').css('display', 'block');
-            
-             $('#searchbutton').css('display', 'block');
-  } else {
-    $('.search_groupe').css('display', 'block');
-    $('.menu').css('display', 'none');  $('.back').css('display', 'none');
-             $('.logoo').css('display', 'block');
-             $('.navlogin').css('display', 'block');
-            
-             $('#searchbutton').css('display', 'block');
-  }
-}
-
-var x = window.matchMedia("(max-width:991px)")
-myFunction(x) // Call listener function at run time
-x.addListener(myFunction) // Attach listener function on state changes
-           
-           
-           
-          })
-      });
+   
+ 
+  });
 </script>
