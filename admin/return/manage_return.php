@@ -62,11 +62,12 @@ if(isset($_GET['id'])){
                                     $cost_arr[$row['id']] = $row['cost'];
                                 endwhile;
                             ?>
-                        <div class="col-md-3">
+                          <div class="col-md-3">
                             <div class="form-group">
                                 <label for="item_id" class="control-label">Item</label>
-                                <select  id="item_id" class="custom-select ">
-                                    <option disabled selected></option>
+                                <select  id="item_id" class="custom-select select2">
+                                    <option disabled selected>Select the item</option>
+                                   
                                 </select>
                             </div>
                         </div>
@@ -89,7 +90,7 @@ if(isset($_GET['id'])){
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="qty" class="control-label">Qty</label>
-                                <input type="number" step="any" class="form-control rounded-0" id="qty">
+                                <input type="number" step="any" class="form-control rounded-0" placeholder='The number of quantity' id="qty">
                             </div>
                         </div>
                         <div class="col-md-2 text-center">

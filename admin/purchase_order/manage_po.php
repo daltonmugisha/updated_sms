@@ -38,6 +38,7 @@ if(isset($_GET['id'])){
                         <div class="form-group">
                             <label for="supplier_id" class="control-label text-info">Supplier</label>
                             <select name="supplier_id" id="supplier_id" class="custom-select select2">
+                                 <!--<option disabled selected>Select the supplier</option>-->
                             <option <?php echo !isset($supplier_id) ? 'selected' : '' ?> disabled></option>
                             <?php 
                             $supplier = $conn->query("SELECT * FROM `supplier_list` where status = 1 order by `name` asc");
@@ -62,19 +63,31 @@ if(isset($_GET['id'])){
                                     $cost_arr[$row['id']] = $row['cost'];
                                 endwhile;
                             ?>
-                        <div class="col-md-3">
+                        <!--<div class="col-md-3">-->
+                        <!--    <div class="form-group">-->
+                        <!--        <label for="item_id" class="control-label">Item</label>-->
+                        <!--        <select  id="item_id" class="custom-select ">-->
+                                    <!--<option disabled selected></option>-->
+                        <!--        </select>-->
+                        <!--    </div>-->
+                        <!--</div>-->
+                        
+                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="item_id" class="control-label">Item</label>
-                                <select  id="item_id" class="custom-select ">
-                                    <option disabled selected></option>
+                                <select  id="item_id" class="custom-select select2">
+                                    <option disabled selected>Select the item</option>
+                                   
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-3">
                         
                             <div class="form-group">
-                            <label for="supplier_id" class="control-label ">Quantity</label>
+                            <label for="supplier_id" class="control-label ">Units</label>
                             <select  id="unit" class="custom-select select2">
+                                                                    <option disabled selected>Select the item</option>
+
                             <?php 
                             $supplier = $conn->query("SELECT * FROM `unit` ");
                             while($row=$supplier->fetch_assoc()):
@@ -88,7 +101,7 @@ if(isset($_GET['id'])){
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="qty" class="control-label">Qty</label>
-                                <input type="number" step="any" class="form-control rounded-0" id="qty">
+                                <input type="number" step="any" class="form-control rounded-0" placeholder='Write in the quantity' id="qty">
                             </div>
                         </div>
                         <div class="col-md-2 text-center">
@@ -218,66 +231,64 @@ if(isset($_GET['id'])){
         </td>
     </tr>
 </table>
-<!-- <?php echo json_encode($item_arr) ?> -->
+<!--<?php echo json_encode($item_arr) ; ?>-->
 <script>
-    var items = <?php echo json_encode($item_arr)  ?>;
-    var costs = $.parseJSON('<?php echo json_encode($cost_arr) ?>')
-    
+    var items =$.parseJSON('<?php echo json_encode($item_arr) ;  ?>')
+    console.log("thevalues==>",items); // Check if items is properly initialized
+    var costs = $.parseJSON('<?php echo json_encode($cost_arr) ; ?>')
+   
     $(function(){
         $('.select2').select2({
-            placeholder:"Please select here",
-            width:'resolve',
-        })
+            placeholder: "Please select here",
+            width: 'resolve',
+        });
         $('#item_id').select2({
-            placeholder:"Please select supplier first",
-            width:'resolve',
-        })
+            placeholder: "Please select supplier first",
+            width: 'resolve',
+        });
 
         $('#supplier_id').change(function(){
-            var supplier_id = $(this).val()
-            $('#item_id').select2('destroy')
+            var supplier_id = $(this).val();
+            $('#item_id').select2('destroy');
             if(!!items[supplier_id]){
-                $('#item_id').html('')
-                var list_item = new Promise(resolve=>{
+                $('#item_id').html('');
+                var list_item = new Promise(resolve => {
                     Object.keys(items[supplier_id]).map(function(k){
-                        var row = items[supplier_id][k]
-                        var opt = $('<option>')
-                            opt.attr('value',row.id)
-                            opt.text(row.name)
-                        $('#item_id').append(opt)
-                    })
-                    resolve()
-                })
+                        var row = items[supplier_id][k];
+                        var opt = $('<option>');
+                        opt.attr('value', row.id);
+                        opt.text(row.name);
+                        $('#item_id').append(opt);
+                    });
+                    resolve();
+                });
                 list_item.then(function(){
                     $('#item_id').select2({
-                        placeholder:"Please select item here",
-                        width:'resolve',
-                    })
-                })
+                        placeholder: "Please select item here",
+                        width: 'resolve',
+                    });
+                });
             }else{
                 list_item.then(function(){
                     $('#item_id').select2({
-                        placeholder:"No Items Listed yet",
-                        width:'resolve',
-                        
-                    })
-                })
+                        placeholder: "No Items Listed yet",
+                        width: 'resolve',
+                    });
+                });
             }
-
-        })
+        });
 
         $('#add_to_list').click(function(){
-            var supplier = $('#supplier_id').val()
-            var item = $('#item_id').val()
+            var supplier = $('#supplier_id').val();
+            var item = $('#item_id').val();
             var qty = $('#qty').val() > 0 ? $('#qty').val() : 0;
-            var unit = $('#unit').val()
-            var price = costs[item] || 0
-            var total = parseFloat(qty) *parseFloat(price)
-            // console.log(supplier,item)
+            var unit = $('#unit').val();
+            var price = costs[item] || 0;
+            var total = parseFloat(qty) * parseFloat(price);
             var item_name = items[supplier][item].name || 'N/A';
             var item_description = items[supplier][item].description || 'N/A';
-            var tr = $('#clone_list tr').clone()
-            if(item == '' || qty == '' || unit == '' ){
+            var tr = $('#clone_list tr').clone();
+            if(item == '' || qty == '' || unit == ''){
                 alert_toast('Form Item textfields are required.','warning');
                 return false;
             }
@@ -285,109 +296,108 @@ if(isset($_GET['id'])){
                 alert_toast('Item is already exists on the list.','error');
                 return false;
             }
-            tr.find('[name="item_id[]"]').val(item)
-            tr.find('[name="unit[]"]').val(unit)
-            tr.find('[name="qty[]"]').val(qty)
-            tr.find('[name="price[]"]').val(price)
-            tr.find('[name="total[]"]').val(total)
-            tr.attr('data-id',item)
-            tr.find('.qty .visible').text(qty)
-            tr.find('.unit').text(unit)
-            tr.find('.item').html(item_name+'<br/>'+item_description)
-            tr.find('.cost').text(parseFloat(price).toLocaleString('en-US'))
-            tr.find('.total').text(parseFloat(total).toLocaleString('en-US'))
-            $('table#list tbody').append(tr)
-            calc()
-            $('#item_id').val('').trigger('change')
-            $('#qty').val('')
-            $('#unit').val('')
+            tr.find('[name="item_id[]"]').val(item);
+            tr.find('[name="unit[]"]').val(unit);
+            tr.find('[name="qty[]"]').val(qty);
+            tr.find('[name="price[]"]').val(price);
+            tr.find('[name="total[]"]').val(total);
+            tr.attr('data-id',item);
+            tr.find('.qty .visible').text(qty);
+            tr.find('.unit').text(unit);
+            tr.find('.item').html(item_name + '<br/>' + item_description);
+            tr.find('.cost').text(parseFloat(price).toLocaleString('en-US'));
+            tr.find('.total').text(parseFloat(total).toLocaleString('en-US'));
+            $('table#list tbody').append(tr);
+            calc();
+            $('#item_id').val('').trigger('change');
+            $('#qty').val('');
+            $('#unit').val('');
             tr.find('.rem_row').click(function(){
-                rem($(this))
-            })
-            
-            $('[name="discount_perc"],[name="tax_perc"]').on('input',function(){
-                calc()
-            })
-            $('#supplier_id').attr('readonly','readonly')
-        })
+                rem($(this));
+            });
+
+            $('[name="discount_perc"],[name="tax_perc"]').on('input', function(){
+                calc();
+            });
+            $('#supplier_id').attr('readonly', 'readonly');
+        });
+
         $('#po-form').submit(function(e){
-			e.preventDefault();
-            var _this = $(this)
-			 $('.err-msg').remove();
-			start_loader();
-			$.ajax({
-				url:_base_url_+"classes/Master.php?f=save_po",
-				data: new FormData($(this)[0]),
+            e.preventDefault();
+            var _this = $(this);
+            $('.err-msg').remove();
+            start_loader();
+            $.ajax({
+                url: _base_url_ + "classes/Master.php?f=save_po",
+                data: new FormData($(this)[0]),
                 cache: false,
                 contentType: false,
                 processData: false,
                 method: 'POST',
                 type: 'POST',
                 dataType: 'json',
-				error:err=>{
-					console.log(err)
-					alert_toast("An error occured",'error');
-					end_loader();
-				},
-				success:function(resp){
-					if(resp.status == 'success'){
-						location.replace(_base_url_+"admin/?page=purchase_order/view_po&id="+resp.id);
-					}else if(resp.status == 'failed' && !!resp.msg){
-                        var el = $('<div>')
-                            el.addClass("alert alert-danger err-msg").text(resp.msg)
-                            _this.prepend(el)
-                            el.show('slow')
-                            end_loader()
-                    }else{
-						alert_toast("An error occured",'error');
-						end_loader();
-                        console.log(resp)
-					}
-                    $('html,body').animate({scrollTop:0},'fast')
-				}
-			})
-		})
+                error: function(err){
+                    console.log("Error: ", err);
+                    alert_toast("An error occurred",'error');
+                    end_loader();
+                },
+                success: function(resp){
+                    console.log("Response: ", resp);
+                    if(resp.status == 'success'){
+                        location.replace(_base_url_ + "admin/?page=purchase_order/view_po&id=" + resp.id);
+                    } else if(resp.status == 'failed' && !!resp.msg){
+                        var el = $('<div>');
+                        el.addClass("alert alert-danger err-msg").text(resp.msg);
+                        _this.prepend(el);
+                        el.show('slow');
+                        end_loader();
+                    } else {
+                        alert_toast("An error occurred",'error');
+                        end_loader();
+                        console.log(resp);
+                    }
+                    $('html, body').animate({scrollTop:0}, 'fast');
+                }
+            });
+        });
 
         if('<?php echo isset($id) && $id > 0 ?>' == 1){
-            calc()
-            $('#supplier_id').trigger('change')
-            $('#supplier_id').attr('readonly','readonly')
+            calc();
+            $('#supplier_id').trigger('change');
+            $('#supplier_id').attr('readonly', 'readonly');
             $('table#list tbody tr .rem_row').click(function(){
-                rem($(this))
-            })
+                rem($(this));
+            });
         }
-    })
-    function rem(_this){
-        _this.closest('tr').remove()
-        calc()
-        if($('table#list tbody tr').length <= 0)
-            $('#supplier_id').removeAttr('readonly')
+    });
 
+    function rem(_this){
+        _this.closest('tr').remove();
+        calc();
+        if($('table#list tbody tr').length <= 0)
+            $('#supplier_id').removeAttr('readonly');
     }
+
     function calc(){
         var sub_total = 0;
         var grand_total = 0;
         var discount = 0;
         var tax = 0;
         $('table#list tbody input[name="total[]"]').each(function(){
-            sub_total += parseFloat($(this).val())
-            
-        })
-        $('table#list tfoot .sub-total').text(parseFloat(sub_total).toLocaleString('en-US',{style:'decimal',maximumFractionDigit:2}))
-        var discount =   sub_total * (parseFloat($('[name="discount_perc"]').val()) /100)
+            sub_total += parseFloat($(this).val());
+        });
+        $('table#list tfoot .sub-total').text(parseFloat(sub_total).toLocaleString('en-US', {style: 'decimal', maximumFractionDigit: 2}));
+        discount = sub_total * (parseFloat($('[name="discount_perc"]').val()) / 100);
         sub_total = sub_total - discount;
-        var tax =   sub_total * (parseFloat($('[name="tax_perc"]').val()) /100)
-        grand_total = sub_total + tax
-        $('.discount').text(parseFloat(discount).toLocaleString('en-US',{style:'decimal',maximumFractionDigit:2}))
-        $('[name="discount"]').val(parseFloat(discount))
-        $('.tax').text(parseFloat(tax).toLocaleString('en-US',{style:'decimal',maximumFractionDigit:2}))
-        $('[name="tax"]').val(parseFloat(tax))
-        $('table#list tfoot .grand-total').text(parseFloat(grand_total).toLocaleString('en-US',{style:'decimal',maximumFractionDigit:2}))
-        $('[name="amount"]').val(parseFloat(grand_total))
-
+        tax = sub_total * (parseFloat($('[name="tax_perc"]').val()) / 100);
+        grand_total = sub_total + tax;
+        $('.discount').text(parseFloat(discount).toLocaleString('en-US', {style: 'decimal', maximumFractionDigit: 2}));
+        $('[name="discount"]').val(parseFloat(discount));
+        $('.tax').text(parseFloat(tax).toLocaleString('en-US', {style: 'decimal', maximumFractionDigit: 2}));
+        $('[name="tax"]').val(parseFloat(tax));
+        $('table#list tfoot .grand-total').text(parseFloat(grand_total).toLocaleString('en-US', {style: 'decimal', maximumFractionDigit: 2}));
+        $('[name="amount"]').val(parseFloat(grand_total));
     }
 </script>
 
 
-<!--     var items = $.parseJSON('{"1":{"34":{"id":"34","name":"Ace toilet clean ","description":"","supplier_id":"1","cost":"1600","status":"1","date_created":"2024-01-04 14:26:56","date_updated":"2024-01-04 15:07:42","cat_id":"0"},"28":{"id":"28","name":"Balais avec ramassettes ","description":"","supplier_id":"1","cost":"9000","status":"1","date_created":"2024-01-04 14:26:56","date_updated":"2024-01-04 14:26:56","cat_id":"0"},"38":{"id":"38","name":"Bottes SANDAK","description":"","supplier_id":"1","cost":"9000","status":"1","date_created":"2024-01-04 14:26:56","date_updated":"2024-01-04 14:26:56","cat_id":"0"},"37":{"id":"37","name":"COTEX (Allways or SUPA)","description":"","supplier_id":"1","cost":"35000","status":"1","date_created":"2024-01-04 14:26:56","date_updated":"2024-01-04 14:26:56","cat_id":"0"},"39":{"id":"39","name":"Eau min\u00e9rale INYANGE (Carton de 24 bouteilles) ","description":"","supplier_id":"1","cost":"4000","status":"1","date_created":"2024-01-04 14:26:56","date_updated":"2024-01-04 14:26:56","cat_id":"0"},"43":{"id":"43","name":"Ikawa ''Gorilla''","description":"","supplier_id":"1","cost":"9000","status":"1","date_created":"2024-01-04 14:26:57","date_updated":"2024-01-04 14:26:57","cat_id":"0"},"44":{"id":"44","name":"Ikibiriti ","description":"","supplier_id":"1","cost":"3000","status":"1","date_created":"2024-01-04 14:26:57","date_updated":"2024-01-04 14:26:57","cat_id":"0"},"23":{"id":"23","name":"Ikiringiti cya rufuku ","description":"","supplier_id":"1","cost":"6000","status":"1","date_created":"2024-01-04 14:26:55","date_updated":"2024-01-04 14:26:55","cat_id":"0"},"26":{"id":"26","name":"Ikiroso gifite umuhini n'amenyo magufi   KIAKA  ","description":"","supplier_id":"1","cost":"3000","status":"1","date_created":"2024-01-04 14:26:55","date_updated":"2024-01-04 14:26:55","cat_id":"0"},"36":{"id":"36","name":"Imbuma zo gushyira muri urinoir ","description":"","supplier_id":"1","cost":"3000","status":"1","date_created":"2024-01-04 14:26:56","date_updated":"2024-01-04 14:26:56","cat_id":"0"},"27":{"id":"27","name":"Imyeyo KIAKA  ","description":"","supplier_id":"1","cost":"3000","status":"1","date_created":"2024-01-04 14:26:55","date_updated":"2024-01-04 14:26:55","cat_id":"0"},"46":{"id":"46","name":"Ingorofani (Chilington)","description":"","supplier_id":"1","cost":"60000","status":"1","date_created":"2024-01-04 14:26:57","date_updated":"2024-01-04 14:26:57","cat_id":"0"},"47":{"id":"47","name":"Ipompo yo gutera umuti wica udukoko","description":"","supplier_id":"1","cost":"35000","status":"1","date_created":"2024-01-04 14:26:57","date_updated":"2024-01-04 14:26:57","cat_id":"0"},"17":{"id":"17","name":"Isabune y'ifu yo mudushashi ","description":"","supplier_id":"1","cost":"7500","status":"1","date_created":"2024-01-04 14:26:55","date_updated":"2024-01-04 14:26:55","cat_id":"0"},"19":{"id":"19","name":"Isabune yo gukaraba (Sant\u00e9)","description":"","supplier_id":"1","cost":"18500","status":"1","date_created":"2024-01-04 14:26:55","date_updated":"2024-01-04 14:26:55","cat_id":"0"},"18":{"id":"18","name":"Isabune yo kumesa (GIFURA)","description":"","supplier_id":"1","cost":"12000","status":"1","date_created":"2024-01-04 14:26:55","date_updated":"2024-01-04 14:26:55","cat_id":"0"},"16":{"id":"16","name":"Isukari ","description":"","supplier_id":"1","cost":"96000","status":"1","date_created":"2024-01-04 14:26:54","date_updated":"2024-01-04 14:26:54","cat_id":"0"},"45":{"id":"45","name":"Lait en poudre (Star)","description":"","supplier_id":"1","cost":"198000","status":"1","date_created":"2024-01-04 14:26:57","date_updated":"2024-01-04 14:26:57","cat_id":"0"},"31":{"id":"31","name":"Papiers hygi\u00e8niques (SUPA)","description":"","supplier_id":"1","cost":"10500","status":"1","date_created":"2024-01-04 14:26:56","date_updated":"2024-01-04 14:26:56","cat_id":"0"},"35":{"id":"35","name":"Parfum pour les toilettes ","description":"","supplier_id":"1","cost":"2000","status":"1","date_created":"2024-01-04 14:26:56","date_updated":"2024-01-04 14:26:56","cat_id":"0"},"33":{"id":"33","name":"Pleidge ","description":"","supplier_id":"1","cost":"4500","status":"1","date_created":"2024-01-04 14:26:56","date_updated":"2024-01-04 14:26:56","cat_id":"0"},"25":{"id":"25","name":"Poubelle 20Litres  ipfundikirwa ya alminium ","description":"","supplier_id":"1","cost":"63000","status":"1","date_created":"2024-01-04 14:26:55","date_updated":"2024-01-04 14:26:55","cat_id":"0"},"24":{"id":"24","name":"Poubelles ntoya ya plastique yo mu biro ","description":"","supplier_id":"1","cost":"3000","status":"1","date_created":"2024-01-04 14:26:55","date_updated":"2024-01-04 14:26:55","cat_id":"0"},"29":{"id":"29","name":"Raclette KIAKA","description":"","supplier_id":"1","cost":"3000","status":"1","date_created":"2024-01-04 14:26:56","date_updated":"2024-01-04 14:26:56","cat_id":"0"},"41":{"id":"41","name":"Rwanda Tea ","description":"","supplier_id":"1","cost":"1800","status":"1","date_created":"2024-01-04 14:26:56","date_updated":"2024-01-04 14:26:56","cat_id":"0"},"20":{"id":"20","name":"Savon liquide ","description":"","supplier_id":"1","cost":"15000","status":"1","date_created":"2024-01-04 14:26:55","date_updated":"2024-01-04 14:26:55","cat_id":"0"},"40":{"id":"40","name":"Serviettes (SUPA)","description":"","supplier_id":"1","cost":"6000","status":"1","date_created":"2024-01-04 14:26:56","date_updated":"2024-01-04 14:26:56","cat_id":"0"},"22":{"id":"22","name":"Shinex yo koza ibirahure ","description":"","supplier_id":"1","cost":"11754","status":"1","date_created":"2024-01-04 14:26:55","date_updated":"2024-01-04 14:26:55","cat_id":"0"},"42":{"id":"42","name":"Tea bag ","description":"","supplier_id":"1","cost":"2500","status":"1","date_created":"2024-01-04 14:26:57","date_updated":"2024-01-04 14:26:57","cat_id":"0"},"30":{"id":"30","name":"Uburoso bwo koza W.C biracaraho  ","description":"","supplier_id":"1","cost":"2500","status":"1","date_created":"2024-01-04 14:26:56","date_updated":"2024-01-04 14:26:56","cat_id":"0"},"32":{"id":"32","name":"Udusume turinganiye two guhanaguza ","description":"","supplier_id":"1","cost":"3500","status":"1","date_created":"2024-01-04 14:26:56","date_updated":"2024-01-04 14:26:56","cat_id":"0"},"48":{"id":"48","name":"Umuti wica udukoko ","description":"","supplier_id":"1","cost":"10000","status":"1","date_created":"2024-01-04 14:26:57","date_updated":"2024-01-04 14:26:57","cat_id":"0"},"21":{"id":"21","name":"VIM VIM","description":"","supplier_id":"1","cost":"20000","status":"1","date_created":"2024-01-04 14:26:55","date_updated":"2024-01-04 14:26:55","cat_id":"0"}},"2":{"77":{"id":"77","name":"Agenda moyenne (sans ann\u00e9e) ","description":"","supplier_id":"2","cost":"3500","status":"1","date_created":"2024-01-17 07:03:51","date_updated":"2024-01-17 07:03:51","cat_id":"2"},"63":{"id":"63","name":"Agraffe ","description":"","supplier_id":"2","cost":"1500","status":"1","date_created":"2024-01-17 07:03:50","date_updated":"2024-01-17 07:03:50","cat_id":"2"},"70":{"id":"70","name":"Bics bleus ","description":"","supplier_id":"2","cost":"7500","status":"1","date_created":"2024-01-17 07:03:50","date_updated":"2024-01-17 07:03:50","cat_id":"2"},"71":{"id":"71","name":"Bics rouges ","description":"","supplier_id":"2","cost":"7500","status":"1","date_created":"2024-01-17 07:03:50","date_updated":"2024-01-17 07:03:50","cat_id":"2"},"66":{"id":"66","name":"Bloc notes petit format","description":"","supplier_id":"2","cost":"400","status":"1","date_created":"2024-01-17 07:03:50","date_updated":"2024-01-17 07:03:50","cat_id":"2"},"73":{"id":"73","name":"Bo\u00eete d'archive ","description":"","supplier_id":"2","cost":"2500","status":"1","date_created":"2024-01-17 07:03:50","date_updated":"2024-01-17 07:03:50","cat_id":"2"},"57":{"id":"57","name":"Cahiers de 200 pages ","description":"","supplier_id":"2","cost":"68000","status":"1","date_created":"2024-01-17 07:03:50","date_updated":"2024-01-17 07:03:50","cat_id":"2"},"58":{"id":"58","name":"Cahiers de coupe de 96 pages ","description":"","supplier_id":"2","cost":"65000","status":"1","date_created":"2024-01-17 07:03:50","date_updated":"2024-01-17 07:03:50","cat_id":"2"},"78":{"id":"78","name":"Ciseaux de bureau ","description":"","supplier_id":"2","cost":"1000","status":"1","date_created":"2024-01-17 07:03:51","date_updated":"2024-01-17 07:03:51","cat_id":"2"},"79":{"id":"79","name":"Colle Fantastic","description":"","supplier_id":"2","cost":"12000","status":"1","date_created":"2024-01-17 07:03:51","date_updated":"2024-01-17 07:03:51","cat_id":"2"},"80":{"id":"80","name":"Colle UHU liquide ","description":"","supplier_id":"2","cost":"9500","status":"1","date_created":"2024-01-17 07:03:51","date_updated":"2024-01-17 07:03:51","cat_id":"2"},"55":{"id":"55","name":"Craie blanche (MUNGYO)","description":"","supplier_id":"2","cost":"40000","status":"1","date_created":"2024-01-17 07:03:50","date_updated":"2024-01-17 07:03:50","cat_id":"2"},"56":{"id":"56","name":"Craie de couleur (MUNGYO)","description":"","supplier_id":"2","cost":"52000","status":"1","date_created":"2024-01-17 07:03:50","date_updated":"2024-01-17 07:03:50","cat_id":"2"},"53":{"id":"53","name":"Encre \u00e0 huile pour cachet automatique (Blue) ","description":"","supplier_id":"2","cost":"4000","status":"1","date_created":"2024-01-17 07:03:49","date_updated":"2024-01-17 07:03:49","cat_id":"2"},"54":{"id":"54","name":"Encre \u00e0 huile pour cachet automatique (Rouge) ","description":"","supplier_id":"2","cost":"4000","status":"1","date_created":"2024-01-17 07:03:49","date_updated":"2024-01-17 07:03:49","cat_id":"2"},"62":{"id":"62","name":"Encre correcteur (BLANCO)","description":"","supplier_id":"2","cost":"1500","status":"1","date_created":"2024-01-17 07:03:50","date_updated":"2024-01-17 07:03:50","cat_id":"2"},"59":{"id":"59","name":"Enveloppes A4","description":"","supplier_id":"2","cost":"4000","status":"1","date_created":"2024-01-17 07:03:50","date_updated":"2024-01-17 07:03:50","cat_id":"2"},"72":{"id":"72","name":"Farde \u00e0 suspendre de 25pc\u00e8s ","description":"","supplier_id":"2","cost":"9500","status":"1","date_created":"2024-01-17 07:03:50","date_updated":"2024-01-17 07:03:50","cat_id":"2"},"76":{"id":"76","name":"Ibifuniko  by'amakayi ","description":"","supplier_id":"2","cost":"400","status":"1","date_created":"2024-01-17 07:03:51","date_updated":"2024-01-17 07:03:51","cat_id":"2"},"64":{"id":"64","name":"Isumaku zifata kuri white board ","description":"","supplier_id":"2","cost":"4800","status":"1","date_created":"2024-01-17 07:03:50","date_updated":"2024-01-17 07:03:50","cat_id":"2"},"81":{"id":"81","name":"Labels paper ","description":"","supplier_id":"2","cost":"20000","status":"1","date_created":"2024-01-17 07:03:51","date_updated":"2024-01-17 07:03:51","cat_id":"2"},"68":{"id":"68","name":"Marqueurs pour white board","description":"","supplier_id":"2","cost":"1000","status":"1","date_created":"2024-01-17 07:03:50","date_updated":"2024-01-17 07:03:50","cat_id":"2"},"52":{"id":"52","name":"Papier bristol ( Bleu) A4","description":"","supplier_id":"2","cost":"5000","status":"1","date_created":"2024-01-17 07:03:49","date_updated":"2024-01-17 07:03:49","cat_id":"2"},"75":{"id":"75","name":"Papiers chemises (50pcs rose + 50 pcs vert) ","description":"","supplier_id":"2","cost":"9000","status":"1","date_created":"2024-01-17 07:03:50","date_updated":"2024-01-17 07:03:50","cat_id":"2"},"50":{"id":"50","name":"Papiers duplicata (Marque REPORT)","description":"","supplier_id":"2","cost":"27000","status":"1","date_created":"2024-01-17 07:03:49","date_updated":"2024-01-17 07:03:49","cat_id":"2"},"65":{"id":"65","name":"Perforateur ","description":"","supplier_id":"2","cost":"5000","status":"1","date_created":"2024-01-17 07:03:50","date_updated":"2024-01-17 07:03:50","cat_id":"2"},"67":{"id":"67","name":"Permanent marker (Petit format)","description":"","supplier_id":"2","cost":"5000","status":"1","date_created":"2024-01-17 07:03:50","date_updated":"2024-01-17 07:03:50","cat_id":"2"},"60":{"id":"60","name":"Petites enveloppes blanches ","description":"","supplier_id":"2","cost":"1500","status":"1","date_created":"2024-01-17 07:03:50","date_updated":"2024-01-17 07:03:50","cat_id":"2"},"61":{"id":"61","name":"Post it ","description":"","supplier_id":"2","cost":"4500","status":"1","date_created":"2024-01-17 07:03:50","date_updated":"2024-01-17 07:03:50","cat_id":"2"},"51":{"id":"51","name":"PVC pour faire les cartes d'\u00e9l\u00e8vrs EPSON","description":"","supplier_id":"2","cost":"35000","status":"1","date_created":"2024-01-17 07:03:49","date_updated":"2024-01-17 07:03:49","cat_id":"2"},"74":{"id":"74","name":"Skotches durs (Pelicaline) pour la reliure des livres ","description":"","supplier_id":"2","cost":"2000","status":"1","date_created":"2024-01-17 07:03:50","date_updated":"2024-01-17 07:03:50","cat_id":"2"},"69":{"id":"69","name":"Souligneur ","description":"","supplier_id":"2","cost":"2000","status":"1","date_created":"2024-01-17 07:03:50","date_updated":"2024-01-17 07:03:50","cat_id":"2"}},"4":{"84":{"id":"84","name":"Jezz z abakinnyi bo mu kibuga hagati","description":"","supplier_id":"4","cost":"289000","status":"1","date_created":"2024-01-17 07:10:34","date_updated":"2024-01-17 07:10:34","cat_id":"17"}}}')
- -->

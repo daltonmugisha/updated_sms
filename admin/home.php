@@ -12,13 +12,12 @@
                         $money =  0 ;
                         $qry = $conn->query("SELECT * FROM `sales_list` order by `date_created` desc");
                         while($row = $qry->fetch_assoc()):
-                           $money = $money + $row['amount'] ;
-                     
+                           $money = $money + $row['amount'] ;                  
                         ?> 
                         <?php  endwhile ; ?>
     <div style="background-color: white; padding:5px;display:flex; border-radius:5px;" class="  shadow rounded-3">
         <a style="margin-top: 5px;font-weight:bold" class="text-dark " href=""> <?php echo $money ?> frw <br>
-   <span >
+   <span style='font-size:13px; color: green ; '>
 
    <?php
 // Fetch old money
@@ -90,10 +89,10 @@ if ($oldMoneyResult->num_rows > 0) {
             echo "No percentage change";
         }
     } else {
-        echo "Old money is zero, cannot calculate percentage change.";
+        echo "No last month's record";
     }
 } else {
-    echo "No records found for the current month.";
+    echo "No records";
 }
 ?> </span>
     </a>
@@ -149,9 +148,11 @@ if ($oldMoneyResult->num_rows > 0) {
                     <span class="info-box-text">All stock</span>
                     <span class="info-box-number text-right">
                         <?php
-                        $result = $conn->query("SELECT SUM(quantity) as allsum FROM `stock_list`");
-                        $row = $result->fetch_assoc();
-                        $sum = $row['allsum'];
+                        // $result = $conn->query("SELECT SUM(quantity) as allsum FROM `stock_list`");
+                            $in = $conn->query("SELECT SUM(quantity) as total FROM stock_list where type = 1")->fetch_array()['total'];
+                            $out = $conn->query("SELECT SUM(quantity) as total FROM stock_list where type = 2")->fetch_array()['total'];
+                            $sum = $in - $out;
+                        // $sum = $row['allsum'];
 
                         echo $sum;
                         ?>
@@ -287,25 +288,12 @@ if ($oldMoneyResult->num_rows > 0) {
                 <center><a class="btn btn-primary rounded-pill" href="./?page=act/act">More activity</a></center>
             </div>
         </div>
-        <div style="" class="col-6">
-               <div style="display:flex;justify-content:center;flex-direction:column;background-color: white; border-radius:5px;">
-               <center>            <h5 class="text-muted">In Stock Product</h5>
-</center>
-        <div id="chart" class=" p-3 rounded-5">
-            </div>
-        </div>
-               </div>
-        </div>
-
-    </div>
-    <?php
-    $result = $conn->query("
-    SELECT category.name AS category_name, SUM(stock_list.quantity) AS total_quantity
+          <?php
+    $result = $conn->query("SELECT category.name AS category_name, SUM(stock_list.quantity) AS total_quantity
     FROM stock_list
     INNER JOIN item_list ON stock_list.item_id = item_list.id
     INNER JOIN category ON item_list.cat_id = category.id
-    GROUP BY category_name;
-");
+    GROUP BY category_name;");
 
     $categoryData = [];
     if ($result) {
@@ -315,10 +303,37 @@ if ($oldMoneyResult->num_rows > 0) {
                 'total_quantity' => $row['total_quantity']
             ];
         }
+        // echo $categoryData ; 
     } else {
         echo "Error: " . $conn->error;
     }
     ?>
+
+        <div style="" class="col-6">
+               <div style="display:flex;justify-content:center;flex-direction:column;background-color: white; border-radius:5px;">
+               <center>            <h5 class="text-muted">In Stock Product</h5>
+</center>
+
+<center style='margin-top:50px'>
+    
+      <?php
+            if(count($categoryData)==0){
+                
+                
+                echo "NO DATA TO SHOW";
+            }
+            ?>
+</center>
+        <div id="chart" class=" p-3 rounded-5">
+            
+            </div>
+          
+        </div>
+               </div>
+        </div>
+
+    </div>
+ 
 
     <script>
         var categoryData = <?php echo json_encode($categoryData); ?>;

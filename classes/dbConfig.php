@@ -1,12 +1,16 @@
 <?php  
 // Database configuration  
-define('DB_HOST', 'localhost'); 
-define('DB_USERNAME', 'root'); 
-define('DB_PASSWORD', ''); 
-define('DB_NAME', 'sms_db'); 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "stock_db-3130313f7a";
   
 // Create database connection  
-$db = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);  
+$db = new mysqli($servername, $username, $password, $dbname);  
   
 // Check connection  
 if ($db->connect_error) { 
@@ -14,3 +18,4 @@ if ($db->connect_error) {
 }else{
     // echo "god";
 }
+

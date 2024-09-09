@@ -17,7 +17,7 @@
                         <col width="100%">
                       
                     </colgroup>
-                    <thead>
+                    <thead class='bg-info'>
                         <tr>
                             <th>#</th>
                             <th>Date Created</th>

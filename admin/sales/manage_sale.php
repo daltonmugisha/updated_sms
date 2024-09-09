@@ -36,9 +36,9 @@ if (isset($_GET['id'])) {
                     </div>
                     <div class="col-md-6">
                             <div class="form-group">
-                                <label for="item_id" class="control-label">Client Name</label>
-                                <select  id="unit" class="custom-select select2 ">
-                   <option value="" selected>Choose the unit.</option>
+                                <label for="client" class="control-label">Client Name</label>
+                                <select  id="client" name="client" class="custom-select select2 ">
+                   <option value="" disabled selected>Choose the client or guest</option>
                    <?php 
                         $supplier = $conn->query("SELECT * FROM `guests` ");
                         while($row=$supplier->fetch_assoc()):
@@ -67,7 +67,7 @@ if (isset($_GET['id'])) {
                             <div class="form-group">
                                 <label for="item_id" class="control-label">Item</label>
                                 <select id="item_id" class="custom-select select2">
-                                    <option disabled selected></option>
+                                    <option disabled selected>Select the item</option>
                                     <?php foreach ($item_arr as $k => $v) : ?>
                                         <option class="shit" value="<?php echo $k ?>"> <?php echo $v['name'] ?></option>
                                     <?php endforeach; ?>
@@ -76,9 +76,9 @@ if (isset($_GET['id'])) {
                         </div>
                         <div class="col-md-3">
                         <div class="form-group">
-                        <label  style="margin-top:-205px;" for="supplier_id" class="control-label  ">Units</label>
+                        <label  style="margin-top:-205px;" for="unit" class="control-label  ">Units</label>
                         <select  id="unit" class="custom-select select2 ">
-                   <option value="" selected>Choose the unit.</option>
+                   <option value="" selected disabled>Choose the unit</option>
                    <?php 
                         $supplier = $conn->query("SELECT * FROM `unit` ");
                         while($row=$supplier->fetch_assoc()):
@@ -95,7 +95,7 @@ if (isset($_GET['id'])) {
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="qty" class="control-label">Qty</label>
-                                <input type="number" step="any" class="form-control rounded-0" id="qty">
+                                <input type="number" step="any" placeholder='Write in the number of items(Quantity)' class="form-control rounded-0" id="qty">
                             </div>
                         </div>
                         <div class="col-md-2 text-center">
@@ -224,6 +224,7 @@ if (isset($_GET['id'])) {
         // })
         $('#add_to_list').click(function() {
             var item = $('#item_id').val()
+            var sups = $('#client').val()
             var qty = $('#qty').val() > 0 ? $('#qty').val() : 0;
             var unit = $('#unit').val()
             var price = costs[item] || 0
@@ -247,10 +248,14 @@ if (isset($_GET['id'])) {
                 type: 'POST',
                 success: function(resp) {
                     if (resp !== 0 && resp >= parseInt(qty)) {
-                        if (item == '' || qty == '' || unit == '') {
+                        if (item == '' || qty == '' || unit == ''  ) {
 
                             alert_toast('Form Item textfields are required.', 'warning');
                             return false;
+                        }else if( sups ==''){
+                            alert_toast("Make sure you have added the client name or go to guests to add him/her", "warning")
+                            
+                            return false ;
                         }
                         if ($('table#list tbody').find('tr[data-id="' + item + '"]').length > 0) {
                             alert_toast('Item is already exists on the list.', 'error');

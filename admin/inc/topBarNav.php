@@ -114,7 +114,7 @@
 
           <!-- <a style="padding-block:0 !important;margin-block:0;" class="dropdown-item" href="<?php echo base_url . 'admin/?page=user' ?>"><span class="	fas fa-align-left"></span>
             My Design</a> -->
-          <div class="dropdown-divider"></div>
+          <!--<div class="dropdown-divider"></div>-->
 
           <a style="padding-block:0;margin:0; " class="dropdown-item"
             href="<?php echo base_url . 'admin/?page=system_info' ?>"><i class="fas fa-cog "></i>
@@ -150,13 +150,14 @@
     height: 400px;
     width: 500px !important;
     position: fixed;
-    top: 120px !important;
+    top: 55px !important;
     right: 100px !important;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075);
     z-index: 9999;
     border-radius: 5px;
     overflow-y: scroll;
     display: none;
+    border:2px solid blue
 
 
   }

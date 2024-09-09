@@ -1,6 +1,6 @@
 <div class="card card-outline card-primary">
 	<div class="card-header">
-		<h3 class="card-title"><i class="fas fa-circle"></i> Add all the Guests you will be receiving.</h3>
+		<h3 class="card-title"><i class="fas fa-circle"></i> Add all the Guests that you will be receiving.</h3>
         <div class="card-tools">
 			<!-- <a href="<?php echo base_url ?>admin/?page=purchase_order/manage_po" class="btn btn-flat btn-primary"><span class="fas fa-plus"></span>  Create New</a> -->
 		</div>
@@ -9,7 +9,7 @@
 		<div>
 			<form  method="post" action="http://localhost:8080/sms/admin/?page=gu/action">
 				<input id="unit_input" class='form-control ' name="guests"  style="width:40%"/>
-				<button id="submit_button"  type="submit" name="submit" class="btn btn-primary my-2 " disabled>ADD NEW GUISTEE</button>
+				<button id="submit_button"  type="submit" name="submit" class="btn btn-primary my-2 " disabled>ADD NEW GUIST</button>
 			</form>
 		</div>
 

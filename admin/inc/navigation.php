@@ -130,6 +130,15 @@
                         </p>
                       </a>
                     </li>
+                    
+                     <li class="nav-item dropdown">
+                      <a href="<?php echo base_url ?>admin/?page=deps/deps" class="nav-link <?php echo isset($_GET['page']) && $_GET['page'] == 'deps/deps' ? 'active' : ''; ?>">
+                        <i class="nav-icon 	fas fa-wallet	"></i>
+                        <p>
+                          Money
+                        </p>
+                      </a>
+                    </li>
                     <li class="nav-item dropdown">
                       <a href="<?php echo base_url ?>admin/?page=gu/gu" class="nav-link <?php echo isset($_GET['page']) && $_GET['page'] == 'gu/gu' ? 'active' : ''; ?>">
                         <i class="nav-icon 	fas fa-user-check	"></i>

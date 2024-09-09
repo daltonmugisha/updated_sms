@@ -1,165 +1,111 @@
-<?php
-// Check if the form is submitted
-if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    // Retrieve values from the form
-    $fromDate = $_GET['from_date'] ?? '';
-    $toDate = $_GET['to_date'] ?? '';
-    $catId = $_GET['cat_id'] ?? '';
-
-
-    // Query to fetch items based on selected criteria
-    $qry = $conn->query("SELECT 
-    i.id as item_id,
-    i.name as item_name,
-    sl.date_created AS date_created,
-    sls.date_created AS date_createds,
-    sl.date_created AS date_created,
-
-    COALESCE(SUM(sl.quantity), 0) as stock_quantity,
-    COALESCE(COUNT(sls.id), 0) as sold_count,
-    COALESCE(SUM(po.quantity), 0) as purchased_quantity
-FROM 
-    `item_list` i
-LEFT JOIN 
-    stock_list sl ON i.id = sl.item_id
-LEFT JOIN 
-    sales_list sls ON sl.id = sls.stock_ids
-LEFT JOIN 
-    po_items po ON i.id = po.item_id
-WHERE 
-    (DATE(sl.date_created) = DATE(sls.date_created) OR sls.date_created IS NULL)
-    AND (i.cat_id = '$catId' OR '$catId' IS NULL)
-    AND ((DATE(sl.date_created) BETWEEN '$fromDate' AND '$toDate') OR sl.date_created IS NULL)
-GROUP BY 
-    i.id, i.name
-ORDER BY 
-    i.name ASC");
-
-}
-
-// Display HTML content
-?>
 <div class="card card-outline card-primary">
-    <div class="card-header">    
-        <h3 class="card-title">Generate a report</h3>
-        <div class="card-tools d-flex">
-            <form method="GET" class="d-flex" action="./">
-                <!-- Date Range and Category Filter Form -->
-                <div class="d-flex align-items-center justify-content-center">
-                    <label class="mx-2">From:</label>
-                    <input type="date" name="from_date" />
-                    <input type="hidden" name="page" value="back_order">
-                </div>
-
-                <div class="d-flex align-items-center justify-content-center">
-                    <label class="mx-2">To:</label>
-                    <input type="date" name="to_date" />
-                </div>
-
-                <div class="d-flex align-items-center justify-content-center">
-                    <label class="mx-2">Filter:</label>
-                    <select name="cat_id" id="cat_id" class="custom-select select2">
-                        <option <?php echo !isset($catId) ? 'selected' : 'disabled' ?>>Select item category</option>
-                        <?php 
-                        $cat = $conn->query("SELECT * FROM `category` ORDER BY `name` ASC");
-                        while ($row = $cat->fetch_assoc()):
-                        ?>
-                        <option value="<?php echo $row['id'] ?>" <?php echo isset($catId) && $catId == $row['id'] ? "selected" : "" ?>><?php echo $row['name'] ?></option>
-                        <?php endwhile; ?>
-                    </select>
-                </div>
-
-                <button type="submit" class="btn btn-primary mx-3">Generate</button>
-            </form>
-        </div>
-    </div>
-    <div class="card-body">
+	<div class="card-header">
+		<h3 class="card-title">List of Back Orders</h3>
+         <div class="card-tools">
+			<a href="<?php echo base_url ?>admin/?page=back_order/manage_bo" class="btn btn-flat btn-primary"><span class="fas fa-plus"></span>  Create New</a>
+		</div> 
+	</div>
+	<div class="card-body">
+		<div class="container-fluid">
         <div class="container-fluid">
-            <!-- Display Report Table -->
-            <?php if ($qry): ?>
-                <table class="table table-hovered table-striped text-center">
-                    <!-- Table Headers -->
+			<table class="table table-bordered table-stripped">
                     <colgroup>
-                        <!-- Column Widths -->
+                        <col width="5%">
+                        <col width="15%">
+                        <col width="20%">
+                        <col width="20%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
                     </colgroup>
                     <thead>
-                       <th>#</th> 
-                        <th>Item</th>
-                       <th>Date purchased</th>
-                       <th>Date recieved</th>
-                       <th>Date sold</th>
-                       <th>Quantity sold</th>
-                       <th>Quantity in stock</th>
-                     
-
+                        <tr>
+                            <th>#</th>
+                            <th>Date Created</th>
+                            <th>BO Code</th>
+                            <th>Supplier</th>
+                            <th>Items</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
                     </thead>
                     <tbody>
                         <?php 
-                        // Loop through the query results and display them in the table
                         $i = 1;
-                        while ($row = $qry->fetch_assoc()):
+                        $qry = $conn->query("SELECT p.*, s.name as supplier FROM `back_order_list` p inner join supplier_list s on p.supplier_id = s.id order by p.`date_created` desc");
+                        while($row = $qry->fetch_assoc()):
+                            $row['items'] = $conn->query("SELECT count(item_id) as `items` FROM `bo_items` where bo_id = '{$row['id']}' ")->fetch_assoc()['items'];
                         ?>
-                        <tr>
-                            <td class="text-center"><?php echo $i++; ?></td>
-                            <td><?php echo $row['item_name'] ?></td>
+                            <tr>
+                                <td class="text-center"><?php echo $i++; ?></td>
+                                <td><?php echo date("Y-m-d H:i",strtotime($row['date_created'])) ?></td>
+                                <td><?php echo $row['bo_code'] ?></td>
+                                <td><?php echo $row['supplier'] ?></td>
+                                <td class="text-right"><?php echo number_format($row['items']) ?></td>
+                                <td class="text-center">
+                                    <?php if($row['status'] == 0): ?>
+                                        <span class="badge badge-primary rounded-pill">Pending</span>
+                                    <?php elseif($row['status'] == 1): ?>
+                                        <span class="badge badge-warning rounded-pill">Partially received</span>
+                                        <?php elseif($row['status'] == 2): ?>
+                                        <span class="badge badge-success rounded-pill">Received</span>
+                                    <?php else: ?>
+                                        <span class="badge badge-danger rounded-pill">N/A</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td align="center">
+                                    <button type="button" class="btn btn-flat btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">
+                                            Action
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <div class="dropdown-menu" role="menu">
+                                    <?php if($row['status'] == 0): ?>
 
-                            <td><?php echo date("Y-m-d H:i", strtotime($row['date_created'])) ?></td>
-                            <td><?php echo $row['sold_count'] ?></td>
-                            <td><?php echo $row['purchased_quantity'] ?></td>
-                        
-                         
-                        </tr>
+                                        <a class="dropdown-item" href="<?php echo base_url.'admin?page=receiving/manage_receiving&bo_id='.$row['id'] ?>" data-id="<?php echo $row['id'] ?>"><span class="fa fa-boxes text-dark"></span> Receive</a>
+                                        <div class="dropdown-divider"></div>
+                                    <?php endif; ?>
+                                        <a class="dropdown-item" href="<?php echo base_url.'admin?page=back_order/view_bo&id='.$row['id'] ?>" data-id="<?php echo $row['id'] ?>"><span class="fa fa-eye text-dark"></span> View</a>
+                                    </div>
+                                </td>
+                            </tr>
                         <?php endwhile; ?>
                     </tbody>
                 </table>
-            <?php endif; ?>
-        </div>
-    </div>
+		</div>
+		</div>
+	</div>
 </div>
-
 <script>
-    // JavaScript Event Handling
-    $(document).ready(function(){
-        $('.delete_data').click(function(){
-            _conf("Are you sure to delete this Item permanently?", "delete_category", [$(this).attr('data-id')])
-        })
-
-        $('#create_new').click(function(){
-            uni_modal("<i class='fa fa-plus'></i> Add New Item", "maintenance/manage_item.php", "mid-large")
-        })
-
-        $('.edit_data').click(function(){
-            uni_modal("<i class='fa fa-edit'></i> Edit Item Details", "maintenance/manage_item.php?id=" + $(this).attr('data-id'), "mid-large")
-        })
-
-        $('.view_data').click(function(){
-            uni_modal("<i class='fa fa-box'></i> Item Details", "maintenance/view_item.php?id=" + $(this).attr('data-id'), "")
-        })
-
-        $('.table td,.table th').addClass('py-1 px-2 align-middle')
-        $('.table').dataTable();
-    })
-
-    function delete_category($id){
-        start_loader();
-        $.ajax({
-            url: _base_url_ + "classes/Master.php?f=delete_item",
-            method: "POST",
-            data: {id: $id},
-            dataType: "json",
-            error: err => {
-                console.log(err)
-                alert_toast("An error occurred.", 'error');
-                end_loader();
-            },
-            success: function(resp){
-                if(typeof resp == 'object' && resp.status == 'success'){
-                    location.reload();
-                } else {
-                    alert_toast("An error occurred.", 'error');
-                    end_loader();
-                }
-            }
-        })
-    }
+	$(document).ready(function(){
+		$('.delete_data').click(function(){
+			_conf("Are you sure to delete this Back Order permanently?","delete_bo",[$(this).attr('data-id')])
+		})
+		$('.view_details').click(function(){
+			uni_modal("Payment Details","transaction/view_payment.php?id="+$(this).attr('data-id'),'mid-large')
+		})
+		$('.table td,.table th').addClass('py-1 px-2 align-middle')
+		$('.table').dataTable();
+	})
+	function delete_bo($id){
+		start_loader();
+		$.ajax({
+			url:_base_url_+"classes/Master.php?f=delete_bo",
+			method:"POST",
+			data:{id: $id},
+			dataType:"json",
+			error:err=>{
+				console.log(err)
+				alert_toast("An error occured.",'error');
+				end_loader();
+			},
+			success:function(resp){
+				if(typeof resp== 'object' && resp.status == 'success'){
+					location.reload();
+				}else{
+					alert_toast("An error occured.",'error');
+					end_loader();
+				}
+			}
+		})
+	}
 </script>

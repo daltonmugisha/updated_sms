@@ -1,78 +1,82 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 header('Access-Control-Allow-Origin: *');
-header("Access-Control-Allow-Headers: *");
+header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json; charset=utf-8');
-header("Access-Control-Allow-Methods: *");
+header('Access-Control-Allow-Methods: POST');
 
-require_once 'dbConfig.php'; 
-     
+include('./dbConfig.php'); 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
- 
+    $eventTitle = isset($_POST['title']) ? htmlspecialchars($_POST['title']) : '';
+    $eventDesc = isset($_POST['description']) ? htmlspecialchars($_POST['description']) : '';
+    $start = isset($_POST['start']) ? htmlspecialchars($_POST['start']) : '';
+    $end = isset($_POST['end']) ? htmlspecialchars($_POST['end']) : '';
+    $types = isset($_POST['type']) ? htmlspecialchars($_POST['type']) : '';
 
-    $eventTitle = $_POST['title'];
-    $eventDesc = $_POST['description'];
-    // $eventURL = $_POST['url'];
-    $start = $_POST['start'];
-    $end = $_POST['end'];
-    $types = $_POST['type'];
-
-    if($types == 'addEvent'){ 
-     
-        if(!empty($eventTitle)){ 
-            // Insert event data into the database 
-            $sqlQ = "INSERT INTO events (title,description,start,end) VALUES (?,?,?,?)"; 
+    if ($types == 'addEvent') { 
+        if (!empty($eventTitle)) { 
+            $sqlQ = "INSERT INTO events (title, description, start, end) VALUES (?, ?, ?, ?)"; 
             $stmt = $db->prepare($sqlQ); 
-            $stmt->bind_param("ssss", $eventTitle, $eventDesc,$start, $end); 
-            $insert = $stmt->execute(); 
-     
-            if($insert){ 
-                $output = [ 
-                    'status' => 1 
-                ]; 
-                echo json_encode($output); 
-            }else{ 
-                echo json_encode(['error' => 'Event Add request failed!']); 
-            } 
-        } 
-    }elseif($types == 'editEvent'){ 
-        
-          
-        $event_id = $_POST['id']; 
-     
-        if(!empty($eventTitle)){ 
-            // Update event data into the database 
-            $sqlQ = "UPDATE events SET title=?,description=?,start=?,end=? WHERE id=?"; 
+            if ($stmt) {
+                $stmt->bind_param("ssss", $eventTitle, $eventDesc, $start, $end); 
+                $insert = $stmt->execute(); 
+                if ($insert) { 
+                    echo json_encode(['status' => 1]); 
+                } else { 
+                    echo json_encode(['error' => 'Event Add request failed!']); 
+                }
+            } else {
+                echo json_encode(['error' => 'Database prepare failed: ' . $db->error]);
+            }
+        } else {
+            echo json_encode(['error' => 'Event title is required.']);
+        }
+    } elseif ($types == 'editEvent') { 
+        $event_id = isset($_POST['id']) ? intval($_POST['id']) : 0; 
+        if (!empty($eventTitle) && $event_id > 0) { 
+            $sqlQ = "UPDATE events SET title=?, description=?, start=?, end=? WHERE id=?"; 
             $stmt = $db->prepare($sqlQ); 
-            $stmt->bind_param("ssssi", $eventTitle, $eventDesc,  $start, $end, $event_id); 
-            $update = $stmt->execute(); 
-     
-            if($update){ 
-                $output = [ 
-                    'status' => 1 
-                ]; 
-                echo json_encode($output); 
-            }else{ 
-                echo json_encode(['error' => 'Event Update request failed!']); 
-            } 
-        } 
-    }elseif($types == 'deleteEvent'){ 
-        $id = $_POST['id']; 
-     
-        $sql = "DELETE FROM events WHERE id=$id"; 
-        $delete = $db->query($sql); 
-        if($delete){ 
-            $output = [ 
-                'status' => 1 
-            ]; 
-            echo json_encode($output); 
-        }else{ 
-            echo json_encode(['error' => 'Event Delete request failed!']); 
-        } 
-    } 
-     
-      
+            if ($stmt) {
+                $stmt->bind_param("ssssi", $eventTitle, $eventDesc, $start, $end, $event_id); 
+                $update = $stmt->execute(); 
+                if ($update) { 
+                    echo json_encode(['status' => 1]); 
+                } else { 
+                    echo json_encode(['error' => 'Event Update request failed!']); 
+                }
+            } else {
+                echo json_encode(['error' => 'Database prepare failed: ' . $db->error]);
+            }
+        } else {
+            echo json_encode(['error' => 'Event title and ID are required.']);
+        }
+    } elseif ($types == 'deleteEvent') { 
+        $id = isset($_POST['id']) ? intval($_POST['id']) : 0; 
+        if ($id > 0) { 
+            $sql = "DELETE FROM events WHERE id=?"; 
+            $stmt = $db->prepare($sql); 
+            if ($stmt) {
+                $stmt->bind_param("i", $id); 
+                $delete = $stmt->execute(); 
+                if ($delete) { 
+                    echo json_encode(['status' => 1]); 
+                } else { 
+                    echo json_encode(['error' => 'Event Delete request failed!']); 
+                }
+            } else {
+                echo json_encode(['error' => 'Database prepare failed: ' . $db->error]);
+            }
+        } else {
+            echo json_encode(['error' => 'Event ID is required.']);
+        }
+    } else {
+        echo json_encode(['error' => 'Invalid request type.']);
+    }
 } else {
-    // If the request method is not POST, handle the error
-    echo "Error: This script only accepts POST requests";
+    echo json_encode(['error' => 'This script only accepts POST requests']);
 }
 ?>
