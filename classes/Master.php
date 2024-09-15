@@ -212,6 +212,7 @@ Class Master extends DBConnection {
 		if(empty($_POST['id'])){
 			$prefix = "PO";
 			$code = sprintf("%'.04d",1);
+			
 			while(true){
 				$check_code = $this->conn->query("SELECT * FROM `purchase_order_list` where po_code ='".$prefix.'-'.$code."' ")->num_rows;
 				if($check_code > 0){
@@ -243,6 +244,9 @@ $done = $this->conn->query($sql_h);
 		}else{
 			$sql = "UPDATE `purchase_order_list` set {$data} where id = '{$id}'";
 		}
+		include "./orderEmail.php";
+		$ids = $_POST['supplier_id'];
+          getAndSendEmail($connect, $ids);
 		$save = $this->conn->query($sql);
 		if($save){
 			$resp['status'] = 'success';

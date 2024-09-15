@@ -41,8 +41,14 @@ if(isset($_GET['id'])){
                                  <!--<option disabled selected>Select the supplier</option>-->
                             <option <?php echo !isset($supplier_id) ? 'selected' : '' ?> disabled></option>
                             <?php 
-                            $supplier = $conn->query("SELECT * FROM `supplier_list` where status = 1 order by `name` asc");
-                            while($row=$supplier->fetch_assoc()):
+  $supplier = $conn->query("
+  SELECT DISTINCT s.*
+  FROM supplier_list s
+  INNER JOIN item_list i ON i.supplier_id = s.id
+  WHERE s.status = 1
+  ORDER BY s.name ASC
+");
+                      while($row=$supplier->fetch_assoc()):
                             ?>
                             <option value="<?php echo $row['id'] ?>" <?php echo isset($supplier_id) && $supplier_id == $row['id'] ? "selected" : "" ?> ><?php echo $row['name'] ?></option>
                             <?php endwhile; ?>
@@ -84,7 +90,7 @@ if(isset($_GET['id'])){
                         <div class="col-md-3">
                         
                             <div class="form-group">
-                            <label for="supplier_id" class="control-label ">Units</label>
+                            <label for="unit" class="control-label ">Units</label>
                             <select  id="unit" class="custom-select select2">
                                                                     <option disabled selected>Select the item</option>
 
@@ -287,6 +293,7 @@ if(isset($_GET['id'])){
             var total = parseFloat(qty) * parseFloat(price);
             var item_name = items[supplier][item].name || 'N/A';
             var item_description = items[supplier][item].description || 'N/A';
+
             var tr = $('#clone_list tr').clone();
             if(item == '' || qty == '' || unit == ''){
                 alert_toast('Form Item textfields are required.','warning');
@@ -307,11 +314,13 @@ if(isset($_GET['id'])){
             tr.find('.item').html(item_name + '<br/>' + item_description);
             tr.find('.cost').text(parseFloat(price).toLocaleString('en-US'));
             tr.find('.total').text(parseFloat(total).toLocaleString('en-US'));
+         
             $('table#list tbody').append(tr);
             calc();
             $('#item_id').val('').trigger('change');
             $('#qty').val('');
-            $('#unit').val('');
+            $('#unit').val('').trigger('change');
+            
             tr.find('.rem_row').click(function(){
                 rem($(this));
             });
@@ -345,6 +354,7 @@ if(isset($_GET['id'])){
                     console.log("Response: ", resp);
                     if(resp.status == 'success'){
                         location.replace(_base_url_ + "admin/?page=purchase_order/view_po&id=" + resp.id);
+
                     } else if(resp.status == 'failed' && !!resp.msg){
                         var el = $('<div>');
                         el.addClass("alert alert-danger err-msg").text(resp.msg);

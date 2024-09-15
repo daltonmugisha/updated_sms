@@ -11,18 +11,20 @@
 			<table class="table table-bordered table-stripped">
                     <colgroup>
                         <col width="5%">
+                        <col width="22%">
+                        <col width="23%">
                         <col width="20%">
-                        <col width="20%">
-                        <col width="40%">
-                        <col width="15%">
+                        <col width="11%">
+                        <col width="13%">
                     </colgroup>
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>N<sup>o</sup></th>
                             <th>Item Name</th>
-                            <th>Supplier</th>
                             <th>Description</th>
+                            <th>Supplier</th>
                             <th>Available Stocks</th>
+                            <th>Stock Price</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,16 +34,23 @@
                         while($row = $qry->fetch_assoc()):
                             $in = $conn->query("SELECT SUM(quantity) as total FROM stock_list where item_id = '{$row['id']}' and type = 1")->fetch_array()['total'];
                             $out = $conn->query("SELECT SUM(quantity) as total FROM stock_list where item_id = '{$row['id']}' and type = 2")->fetch_array()['total'];
+							$value = is_null ($conn->query("SELECT SUM(price) as value FROM stock_list where item_id = '{$row['id']}' and type = 1")->fetch_array()['value']) ? 0 :  ($conn->query("SELECT price as valu FROM stock_list where item_id = '{$row['id']}' and type = 1")->fetch_array()['valu']) ;
                             $row['available'] = $in - $out;
-                        ?>
+                            $row['value'] = $value;
+							$row['product'] = $value*$row['available'];
+                            
+						?>
                             <tr>
                                 <td class="text-center"><?php echo $i++; ?></td>
                                 <td><?php echo $row['name'] ?></td>
-                                <td><?php echo $row['supplier'] ?></td>
                                 <td><?php echo $row['description'] ?></td>
-                                <td  class="text-right"><p style="color:white;background:blue;display:inline-block;padding-inline:5px; border-radius:10px;"><?php echo number_format($row['available']) ?> items</p></td>
+                                <td><?php echo $row['supplier'] ?></td>
+                                <td  class="text-right"><p style="color:white;background:blue;display:inline-block;padding-inline:5px; border-radius:10px;">
+								<?php echo number_format($row['available']) ?> items</p></td>
+                                <td><?php echo $row['product'] ?> RWF</td>
                             </tr>
                         <?php endwhile; ?>
+                       
                     </tbody>
                 </table>
 		</div>

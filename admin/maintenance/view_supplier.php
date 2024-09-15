@@ -25,7 +25,13 @@
                         <dd class="pl-3"><?php echo isset($address) ? $address : '' ?></dd>
                         <dt class="text-info">Contact Person:</dt>
                         <dd class="pl-3"><?php echo isset($cperson) ? $cperson : '' ?></dd>
+                        <dt class="text-info">Email #:</dt>
+                        <dd class="pl-3"><?php echo isset($email) ? $email : '' ?></dd>
+
+                        <dt class="text-info">Push notification #:</dt>
+                        <dd class="pl-3"><?php if($push == 1) {echo 'YES' ;  }else {echo 'NO' ; } ?></dd>
                         <dt class="text-info">Contact #:</dt>
+
                         <dd class="pl-3"><?php echo isset($contact) ? $contact : '' ?></dd>
                         <dt class="text-info">Status:</dt>
                         <dd class="pl-3">

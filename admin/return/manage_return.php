@@ -40,7 +40,14 @@ if(isset($_GET['id'])){
                             <select name="supplier_id" id="supplier_id" class="custom-select select2">
                             <option <?php echo !isset($supplier_id) ? 'selected' : '' ?> disabled></option>
                             <?php 
-                            $supplier = $conn->query("SELECT * FROM `supplier_list` where status = 1 order by `name` asc");
+                          $supplier = $conn->query("
+                          SELECT DISTINCT s.*
+                          FROM supplier_list s
+                          INNER JOIN item_list i ON i.supplier_id = s.id
+                          WHERE s.status = 1
+                          ORDER BY s.name ASC
+                        ");
+                             
                             while($row=$supplier->fetch_assoc()):
                             ?>
                             <option value="<?php echo $row['id'] ?>" <?php echo isset($supplier_id) && $supplier_id == $row['id'] ? "selected" : "" ?> ><?php echo $row['name'] ?></option>
@@ -303,7 +310,7 @@ if(isset($_GET['id'])){
             calc()
             $('#item_id').val('').trigger('change')
             $('#qty').val('')
-            $('#unit').val('')
+            $('#unit').val('').trigger('change')
             tr.find('.rem_row').click(function(){
                 rem($(this))
             })

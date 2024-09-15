@@ -36,6 +36,24 @@ if(isset($_GET['id']) && $_GET['id'] > 0){
 			<label for="contact" class="control-label">Contact #</label>
 			<input name="contact" id="contact" class="form-control rounded-0" value="<?php echo isset($contact) ? $contact : ''; ?>">
 		</div>
+		<p>
+  
+ 
+</p>
+<div class="" id="collapseExample">
+  <div class="card card-body">
+  <input type="hidden" name="push" value="0">
+  <input style="height: 20px;width:20px ;margin-right:30px;margin-left:3px"  class="form-check-input " value="1" name="push" type="checkbox" <?php echo isset($push) && $push == 1 ? "checked" : ''; ?> id="invalidCheck2" required>
+  <label for="" style="margin-left: 30px;" class="">Send notification to this email 	</label>
+   <p>Leave it blank if you don't want to send email, once available, all purchase order are sent directly through email.</p>
+	<div class="form-group">
+			<label for="email" class="control-label">Supplier email</label>
+			<input name="email" id="email" class="form-control rounded-0" value="<?php echo isset($email) ? $email : ''; ?>">
+		</div> 
+</div>
+</div>
+	
+		
 		<div class="form-group">
 			<label for="status" class="control-label">Status</label>
 			<select name="status" id="status" class="custom-select selevt">

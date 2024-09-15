@@ -35,20 +35,24 @@ if (isset($_GET['id'])) {
                         <input type="text" class="form-control form-control-sm rounded-0" value="<?php echo isset($sales_code) ? $sales_code : '' ?>" readonly>
                     </div>
                     <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="client" class="control-label">Client Name</label>
-                                <select  id="client" name="client" class="custom-select select2 ">
-                   <option value="" disabled selected>Choose the client or guest</option>
-                   <?php 
-                        $supplier = $conn->query("SELECT * FROM `guests` ");
-                        while($row=$supplier->fetch_assoc()):
-                        ?>
-                        <option ><?php echo $row['guestn'] ?></option>
-                        <?php endwhile; ?>                       
+                        <div class="form-group">
+                            <label for="client" class="control-label">Client Name</label>
+                            <select id="client"  <?php if(isset($_GET['id'])){echo 'disabled' ;} ?> name="client" class="custom-select select2 ">
+                                <option value="" disabled selected>Choose the client or guest</option>
+                                <?php
+                                $supplier = $conn->query("SELECT * FROM `guests` ");
+                                while ($row = $supplier->fetch_assoc()):
+                                ?>
+                                    <option><?php echo $row['guestn'] ?></option>
 
-                        </select>
-                            </div>
+                                <?php endwhile; ?>
+
+                            </select>
+                           <?php if(isset($_GET['id'])){ ?>
+                            <p>This is a sale from  <?php if(isset($_GET['id'])){echo $client ;} ?></p>
+                            <?php } ?>
                         </div>
+                    </div>
                 </div>
                 <hr>
                 <fieldset>
@@ -75,20 +79,20 @@ if (isset($_GET['id'])) {
                             </div>
                         </div>
                         <div class="col-md-3">
-                        <div class="form-group">
-                        <label  style="margin-top:-205px;" for="unit" class="control-label  ">Units</label>
-                        <select  id="unit" class="custom-select select2 ">
-                   <option value="" selected disabled>Choose the unit</option>
-                   <?php 
-                        $supplier = $conn->query("SELECT * FROM `unit` ");
-                        while($row=$supplier->fetch_assoc()):
-                        ?>
-                        <option ><?php echo $row['unit_name'] ?></option>
-                        <?php endwhile; ?>                       
+                            <div class="form-group">
+                                <label style="margin-top:-205px;" for="unit" class="control-label  ">Units</label>
+                                <select id="unit" class="custom-select select2 ">
+                                    <option value="" selected disabled>Choose the unit</option>
+                                    <?php
+                                    $supplier = $conn->query("SELECT * FROM `unit` ");
+                                    while ($row = $supplier->fetch_assoc()):
+                                    ?>
+                                        <option><?php echo $row['unit_name'] ?></option>
+                                    <?php endwhile; ?>
 
-                        </select>
+                                </select>
                             </div>
-                      
+
                         </div>
 
 
@@ -248,14 +252,20 @@ if (isset($_GET['id'])) {
                 type: 'POST',
                 success: function(resp) {
                     if (resp !== 0 && resp >= parseInt(qty)) {
-                        if (item == '' || qty == '' || unit == ''  ) {
+                        var supss = document.getElementById("client").value; // Assuming 'sups' is the ID of your select/input element
+
+                        if (supss === '') {
+                            alert_toast("Make sure you have added a client name or go to guests to add him/her", "warning");
+                            return false;
+                        }
+                        if (item == '' || qty == '' || unit == '') {
 
                             alert_toast('Form Item textfields are required.', 'warning');
                             return false;
-                        }else if( sups ==''){
+                        } else if (sups == '') {
                             alert_toast("Make sure you have added the client name or go to guests to add him/her", "warning")
-                            
-                            return false ;
+
+                            return false;
                         }
                         if ($('table#list tbody').find('tr[data-id="' + item + '"]').length > 0) {
                             alert_toast('Item is already exists on the list.', 'error');
@@ -276,7 +286,7 @@ if (isset($_GET['id'])) {
                         calc()
                         $('#item_id').val('').trigger('change')
                         $('#qty').val('')
-                        $('#unit').val('')
+                        $('#unit').val('').trigger('change')
                         tr.find('.rem_row').click(function() {
                             rem($(this))
                         })
@@ -291,8 +301,7 @@ if (isset($_GET['id'])) {
                         alert_toast('THERE ARE INAFFICIENT ITEMS IN THE STOCK', 'error')
                     }
                 },
-                error: function(error) {
-                }
+                error: function(error) {}
             })
         })
 

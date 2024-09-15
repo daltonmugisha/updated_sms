@@ -3,7 +3,8 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "root";
+$dbname = "stock_db-3130313f7a";
+  
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -68,10 +69,13 @@ if (isset($_POST['submit'])) {
 if (isset($_POST['ihalf'])) {
   // Item details from form
   $half = $_POST['half'];
-
+  $oldmoney = $_POST['oldmoney'];
+  $money = $_POST['money'];
+  $balance = $_POST['balance'];
+ 
 if(!empty($half)){
    // SQL query to add item to database
-   $sql = "UPDATE cash  SET status = 'I payed some' WHERE id = '$half'";
+   $sql = "UPDATE cash SET status = 'I paid some', balance = balance + '$money' WHERE id = '$half'";
 
    if ($conn->query($sql) === TRUE) {
 
@@ -153,10 +157,14 @@ if(!empty($done)){
 if (isset($_POST['theypaid'])) {
   // Item details from form
   $theypaid = $_POST['theypaidid'];
-
+  $oldmoney = $_POST['oldmoney'];
+  $money = $_POST['money'];
+  // $balance = $_POST['balance'];
+ 
 if(!empty($theypaid)){
    // SQL query to add item to database
-   $sql = "UPDATE cash  SET status = 'They payed some' WHERE id = '$theypaid'";
+   $sql = "UPDATE cash SET status = 'They payed some', balance = balance + '$money' WHERE id = '$theypaid'";
+
 
    if ($conn->query($sql) === TRUE) {
 
