@@ -7,9 +7,9 @@
 	</div>
 	<div class="card-body">
 		<div>
-			<form  method="post" action="http://localhost:8080/sms/admin/?page=gu/action">
+			<form  method="post" action="http://localhost/sms_1/admin/?page=gu/action">
 				<input id="unit_input" class='form-control ' name="guests"  style="width:40%"/>
-				<button id="submit_button"  type="submit" name="submit" class="btn btn-primary my-2 " disabled>ADD NEW GUIST</button>
+				<button id="submit_button"  type="submit" name="submit" class="btn btn-primary my-2 " disabled>ADD NEW GUEST</button>
 			</form>
 		</div>
 
@@ -25,7 +25,7 @@
                     </colgroup>
                     <thead>
                         <tr>
-                            <th>#index</th>
+                            <th>N</sup>o</sup></th>
                             <th>The Quantity</th>
                             <th>Delete</th>
                            
@@ -41,7 +41,7 @@
                             <tr>
                                 <td class="text-center"><?php echo $count++; ?></td>
                                 <td><?php echo $row['guestn'] ?></td>
-                                <td><form  method="post" action="http://localhost:8080/sms/admin/?page=gu/action">
+                                <td><form  method="post" action="http://localhost/sms_1/admin/?page=gu/action">
 				<input class='form-control' name="deletei" value="<?php echo $row['guestn'] ?>" hidden style="width:40%"/>
 				<button type="submit" name="delete" class="btn btn-danger my-2 rounded-pill">DELETE</button>
 			</form></td>

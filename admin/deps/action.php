@@ -3,7 +3,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "stock_db-3130313f7a";
+$dbname = "sms_1";
   
 
 // Create connection
@@ -39,7 +39,7 @@ if (isset($_POST['submit'])) {
 	   if ($conn->query($sql) === TRUE) {
 
 
-     echo ' <script> location.replace("http://localhost:8080/sms/admin/?page=deps/deps"); </script>';
+     echo ' <script> location.replace("http://localhost/sms_1/admin/?page=deps/deps"); </script>';
     } else {
 		   echo "Error: " . $sql . "<br>" . $conn->error;
 	   }
@@ -57,7 +57,7 @@ if (isset($_POST['submit'])) {
 	   if ($conn->query($sql) === TRUE) {
 
 
-     echo ' <script> location.replace("http://localhost:8080/sms/admin/?page=deps/deps"); </script>';
+     echo ' <script> location.replace("http://localhost/sms_1/admin/?page=deps/deps"); </script>';
     } else {
 		   echo "Error: " . $sql . "<br>" . $conn->error;
 	   }
@@ -71,7 +71,7 @@ if (isset($_POST['ihalf'])) {
   $half = $_POST['half'];
   $oldmoney = $_POST['oldmoney'];
   $money = $_POST['money'];
-  $balance = $_POST['balance'];
+  // $balance = $_POST['balance'];
  
 if(!empty($half)){
    // SQL query to add item to database
@@ -80,7 +80,7 @@ if(!empty($half)){
    if ($conn->query($sql) === TRUE) {
 
 
-   echo ' <script> location.replace("http://localhost:8080/sms/admin/?page=deps/deps"); </script>';
+   echo ' <script> location.replace("http://localhost/sms_1/admin/?page=deps/deps"); </script>';
   } else {
      echo "Error: " . $sql . "<br>" . $conn->error;
    }
@@ -100,7 +100,7 @@ if(!empty($full)){
    if ($conn->query($sql) === TRUE) {
 
 
-   echo ' <script> location.replace("http://localhost:8080/sms/admin/?page=deps/deps"); </script>';
+   echo ' <script> location.replace("http://localhost/sms_1/admin/?page=deps/deps"); </script>';
   } else {
      echo "Error: " . $sql . "<br>" . $conn->error;
    }
@@ -120,7 +120,7 @@ if(!empty($waiting)){
    if ($conn->query($sql) === TRUE) {
 
 
-   echo ' <script> location.replace("http://localhost:8080/sms/admin/?page=deps/deps"); </script>';
+   echo ' <script> location.replace("http://localhost/sms_1/admin/?page=deps/deps"); </script>';
   } else {
      echo "Error: " . $sql . "<br>" . $conn->error;
    }
@@ -145,7 +145,7 @@ if(!empty($done)){
    if ($conn->query($sql) === TRUE) {
 
 
-   echo ' <script> location.replace("http://localhost:8080/sms/admin/?page=deps/deps"); </script>';
+   echo ' <script> location.replace("http://localhost/sms_1/admin/?page=deps/deps"); </script>';
   } else {
      echo "Error: " . $sql . "<br>" . $conn->error;
    }
@@ -169,7 +169,7 @@ if(!empty($theypaid)){
    if ($conn->query($sql) === TRUE) {
 
 
-   echo ' <script> location.replace("http://localhost:8080/sms/admin/?page=deps/deps"); </script>';
+   echo ' <script> location.replace("http://localhost/sms_1/admin/?page=deps/deps"); </script>';
   } else {
      echo "Error: " . $sql . "<br>" . $conn->error;
    }
@@ -189,7 +189,7 @@ if(!empty($notpayed)){
    if ($conn->query($sql) === TRUE) {
 
 
-   echo ' <script> location.replace("http://localhost:8080/sms/admin/?page=deps/deps"); </script>';
+   echo ' <script> location.replace("http://localhost/sms_1/admin/?page=deps/deps"); </script>';
   } else {
      echo "Error: " . $sql . "<br>" . $conn->error;
    }

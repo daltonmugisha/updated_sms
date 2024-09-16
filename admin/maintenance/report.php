@@ -360,11 +360,11 @@ echo $sum;
 								
 							
 							?>
-						<a href="http://localhost:8080/sms/admin/?page=purchase_order/view_po&id=<?php echo $row['po_id'] ?>"><?php echo $row['po_code'] ?></a> 	
+						<a href="http://localhost/sms_1/admin/?page=purchase_order/view_po&id=<?php echo $row['po_id'] ?>"><?php echo $row['po_code'] ?></a> 	
 						<?php }else{
 
 							?>
-<a href="http://localhost:8080/sms/admin/?page=receiving/view_receiving&id=<?php echo $row['ides'] ?>"><?php echo $row['po_code'] ?> </a> 
+<a href="http://localhost/sms_1/admin/?page=receiving/view_receiving&id=<?php echo $row['ides'] ?>"><?php echo $row['po_code'] ?> </a> 
 
 <?php } ?>
 						</td>
@@ -558,7 +558,7 @@ echo $sum;
 							<td 	><?php echo $row['supplier'] ?></td>
 							<td class='text-info'><?php echo $row['client'] ?></td>
 							<td><?php echo $row['category_name'] ?></td>
-							<td><a href="http://localhost:8080/sms/admin/?page=sales/view_sale&id=<?php echo $row['id'] ?>"><?php echo $row['sales_code'] ?></a> </td>
+							<td><a href="http://localhost/sms_1/admin/?page=sales/view_sale&id=<?php echo $row['id'] ?>"><?php echo $row['sales_code'] ?></a> </td>
 							<td class="text-center">
                                 <?php if($row['status'] == 1): ?>
                                     <span class="badge badge-success rounded-pill">Active</span>
@@ -883,22 +883,22 @@ charts.render();
     <meta name="viewport" content="width=device-width, initial-scale=1">\
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback"> \
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts">\
-    <link rel="stylesheet" href="http://localhost:8080/sms/plugins/fontawesome-free/css/all.min.css">\
+    <link rel="stylesheet" href="http://localhost/sms_1/plugins/fontawesome-free/css/all.min.css">\
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">\
-    <link rel="stylesheet" href="http://localhost:8080/sms/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">\
-    <link rel="stylesheet" href="http://localhost:8080/sms/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">\
-    <link rel="stylesheet" href="http://localhost:8080/sms/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">\
-    <link rel="stylesheet" href="http://localhost:8080/sms/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">\
-    <link rel="stylesheet" href="http://localhost:8080/sms/plugins/select2/css/select2.min.css">\
-    <link rel="stylesheet" href="http://localhost:8080/sms/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">\
-    <link rel="stylesheet" href="http://localhost:8080/sms/plugins/icheck-bootstrap/icheck-bootstrap.min.css">\
-    <link rel="stylesheet" href="http://localhost:8080/sms/plugins/jqvmap/jqvmap.min.css">\
-    <link rel="stylesheet" href="http://localhost:8080/sms/dist/css/adminlte.css">\
-    <link rel="stylesheet" href="http://localhost:8080/sms/dist/css/custom.css">\
-    <link rel="stylesheet" href="http://localhost:8080/sms/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">\
-    <link rel="stylesheet" href="http://localhost:8080/sms/plugins/daterangepicker/daterangepicker.css">\
-    <link rel="stylesheet" href="http://localhost:8080/sms/plugins/summernote/summernote-bs4.min.css">\
-    <link rel="stylesheet" href="http://localhost:8080/sms/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">\
+    <link rel="stylesheet" href="http://localhost/sms_1/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">\
+    <link rel="stylesheet" href="http://localhost/sms_1/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">\
+    <link rel="stylesheet" href="http://localhost/sms_1/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">\
+    <link rel="stylesheet" href="http://localhost/sms_1/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">\
+    <link rel="stylesheet" href="http://localhost/sms_1/plugins/select2/css/select2.min.css">\
+    <link rel="stylesheet" href="http://localhost/sms_1/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">\
+    <link rel="stylesheet" href="http://localhost/sms_1/plugins/icheck-bootstrap/icheck-bootstrap.min.css">\
+    <link rel="stylesheet" href="http://localhost/sms_1/plugins/jqvmap/jqvmap.min.css">\
+    <link rel="stylesheet" href="http://localhost/sms_1/dist/css/adminlte.css">\
+    <link rel="stylesheet" href="http://localhost/sms_1/dist/css/custom.css">\
+    <link rel="stylesheet" href="http://localhost/sms_1/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">\
+    <link rel="stylesheet" href="http://localhost/sms_1/plugins/daterangepicker/daterangepicker.css">\
+    <link rel="stylesheet" href="http://localhost/sms_1/plugins/summernote/summernote-bs4.min.css">\
+    <link rel="stylesheet" href="http://localhost/sms_1/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">\
 </head><body>');
      printWindow.document.write('<style>table { width: 100%;border-collapse: collapse;}th, td {border: 1px solid #dddddd;padding: 8px;text-align: left;}th { background-color: #f2f2f2;}</style>')
     printWindow.document.write(modalBodyContent);

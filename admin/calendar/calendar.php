@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
     height: 650,
-    events: 'http://localhost:8080/sms/classes/fetchEvents.php',
+    events: 'http://localhost/sms_1/classes/fetchEvents.php',
     
     selectable: true,
     select: async function (start, end, allDay) {
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
         forms.append("type", "addEvent")
         
         console.log(formValues)
-        axios.post("http://localhost:8080/sms/classes/eventHandler.php", forms ,{
+        axios.post("http://localhost/sms_1/classes/eventHandler.php", forms ,{
           headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
         forms.append("type", "deleteEvent")
         
         // console.log(formValues)
-        axios.post("http://localhost:8080/sms/classes/eventHandler.php", forms ,{
+        axios.post("http://localhost/sms_1/classes/eventHandler.php", forms ,{
           headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
         forms.append("id", info.event.id)
         forms.append("type", "editEvent")
         
-        axios.post("http://localhost:8080/sms/classes/eventHandler.php", forms ,{
+        axios.post("http://localhost/sms_1/classes/eventHandler.php", forms ,{
           headers: {
         'Content-Type': 'multipart/form-data',
       },

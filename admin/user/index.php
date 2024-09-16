@@ -86,7 +86,7 @@ var _this = $(this)
 		    method: 'POST',
 		    type: 'POST',
 			success:function(resp){
-location.href="/sms/admin/?page=user"       
+location.href="/sms_1/admin/?page=user"       
 				if(resp ==1){
 					location.reload()
 					

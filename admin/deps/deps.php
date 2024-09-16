@@ -7,7 +7,7 @@
 	</div>
 	<div class="card-body">
 		<div>
-			<form id="myForm" method="post" action="http://localhost:8080/sms/admin/?page=deps/action">
+			<form id="myForm" method="post" action="http://localhost/sms_1/admin/?page=deps/action">
 				<input id="person" class='form-control my-1' placeholder="Add a person's names" name="person" style="width:40%" required />
 
 				<input id="money" class='form-control my-1' placeholder="Add money " name="money" style="width:40%" required />
@@ -35,10 +35,9 @@
 			</colgroup>
 			<thead class='bg-dark'>
 				<tr>
-					<th>#index</th>
+					<th>N<sup>o</sup></th>
 					<th>The Name</th>
 					<th>The Money</th>
-
 					<th>Status</th>
 					<th>The Balance</th>
 					<th>Action</th>
@@ -61,30 +60,22 @@
 						<td><?php echo $row['person'] ?></td>
 						<td><?php echo $row['money'] ?></td>
 
-						<td><?php if ($row['whoowe'] == 'OWETHE' && $row['status'] == 'I payed') { ?>
-
-
+						       <td>
+								<?php if ($row['whoowe'] == 'OWETHE' && $row['status'] == 'I payed') { ?>
 								<center>
 								<p style=" display:inline-block ; padding-inline:5px; padding-block:3px" class='bg-success text-center rounded-pill'>I paid full</p>
 								</center>
-							<?php } elseif ($row['whoowe'] == 'OWETHE' && $row['status'] != 'I payed') {  ?>
+							    <?php } elseif ($row['whoowe'] == 'OWETHE' && $row['status'] != 'I payed') {  ?>
 								<center> <?php if ($row['money'] <= $row['balance']) {
-
-											?>
-									<p style=" display:inline-block ; padding-inline:5px; padding-block:3px" class='bg-success text-center rounded-pill'>I paid full</p>
-									<?php }else{
-
-									 ?>
-<p style="background:rgb(0,0,0,0.2); display:inline-block ; padding-inline:5px; padding-block:3px" class=' text-center rounded-pill'><?php echo $row['status'] ; ?></p>
-									 <?php } ?>
+								?>
+								<p style=" display:inline-block ; padding-inline:5px; padding-block:3px" class='bg-success text-center rounded-pill'>I paid full</p>
+								<?php }else{
+								?>
+                                <p style="background:rgb(0,0,0,0.2); display:inline-block ; padding-inline:5px; padding-block:3px" class='bg-warning text-center rounded-pill'><?php echo $row['status'] ; ?></p>
+								<?php } ?>
 								</center>
-
-							<?php }	?>
-
-
-
-
-							<?php if ($row['whoowe'] == 'OWEME' && $row['status'] == 'They paid me') { ?>
+								<?php }	?>
+                                <?php if ($row['whoowe'] == 'OWEME' && $row['status'] == 'They paid me') { ?>
 
 
 								<center>
@@ -98,7 +89,7 @@
 										<?php }else{
 
 										?>
-								<p style="background:rgb(0,0,0,0.2); display:inline-block ; padding-inline:5px; padding-block:3px" class=' text-center rounded-pill'><?php echo $row['status']; ?></p>
+								<p style="background:rgb(0,0,0,0.2); display:inline-block ; padding-inline:5px; padding-block:3px" class='bg-warning text-center rounded-pill'><?php echo $row['status']; ?></p>
 
 										<?php } ?>
 
@@ -143,7 +134,7 @@ echo '0';
 
 
 			</form>
-			<form class='   align-items-center' method="post" action="http://localhost:8080/sms/admin/?page=deps/action">
+			<form class='   align-items-center' method="post" action="http://localhost/sms_1/admin/?page=deps/action">
 				<div class="form-group">
 					<label for="recipient-name" class="col-form-label">ALL PAID MONEY</label>
 					<input type="text" name="balance" class="form-control" value="<?php echo $row['balance'] ?>" disabled id="recipient-name">
@@ -176,10 +167,10 @@ echo '0';
 									<span class="sr-only">Toggle Dropdown</span>
 								</button>
 								<div class="dropdown-menu" role="menu">
-									<form class='dropdown-item d-flex align-items-center' style="height:30px ;" method="post" action="http://localhost:8080/sms/admin/?page=deps/action">
+									<form class='dropdown-item d-flex align-items-center' style="height:30px ;" method="post" action="http://localhost/sms_1/admin/?page=deps/action">
 										<input class='form-control' name="donepayid" value="<?php echo $row['id'] ?>" hidden style="width:40%" />
 										<button type="submit" name="donepay" class="btn my-2">
-											<p class=' mx-2 my-2'> <i class="fa fa-check text-success mx-2 "></i>THE PAID ME</p>
+											<p class=' mx-2 my-2'> <i class="fa fa-check text-success mx-2 "></i>THEY PAID ME</p>
 										</button>
 									</form>
 									<form class='dropdown-item  d-flex align-items-center' style="height:30px;">
@@ -187,13 +178,13 @@ echo '0';
 											<p class=' mx-2 my-2'> <i class="fa fa-check text-warning mx-2"></i>THEY PAID SOME</p>
 										</button>
 									</form>
-									<form class='dropdown-item d-flex align-items-center' style="height:30px ; " method="post" action="http://localhost:8080/sms/admin/?page=deps/action">
+									<form class='dropdown-item d-flex align-items-center' style="height:30px ; " method="post" action="http://localhost/sms_1/admin/?page=deps/action">
 										<input class='form-control' name="notpayedid" value="<?php echo $row['id'] ?>" hidden style="width:40%" />
 										<button type="submit" name="notpayed" class="btn my-2">
 											<p class=' mx-2 my-2'> <i class="fa fa-question text-dark mx-2"></i>WAITING FOR PAYMENT</p>
 										</button>
 									</form>
-									<form class='dropdown-item d-flex align-items-center' style="height:30px ;" method="post" action="http://localhost:8080/sms/admin/?page=deps/action">
+									<form class='dropdown-item d-flex align-items-center' style="height:30px ;" method="post" action="http://localhost/sms_1/admin/?page=deps/action">
 										<input class='form-control' name="deletei" value="<?php echo $row['id'] ?>" hidden style="width:40%" />
 										<button type="submit" name="delete" class="btn  my-2">
 											<p class=' mx-2 my-2'> <i class="fa fa-trash text-danger mx-2"></i>DELETE</p>
@@ -223,7 +214,7 @@ echo '0';
 
 
 												</form>
-												<form class='   align-items-center' method="post" action="http://localhost:8080/sms/admin/?page=deps/action">
+												<form class='   align-items-center' method="post" action="http://localhost/sms_1/admin/?page=deps/action">
 													<div class="form-group">
 														<label for="recipient-name" class="col-form-label">ALL PAID MONEY</label>
 														<input type="text" name="balance" class="form-control" value="<?php echo $row['balance'] ?>" disabled id="recipient-name">
@@ -255,7 +246,7 @@ echo '0';
 									<span class="sr-only">Toggle Dropdown</span>
 								</button>
 								<div class="dropdown-menu" role="menu">
-									<form class='dropdown-item d-flex align-items-center' style="height:30px ;" method="post" action="http://localhost:8080/sms/admin/?page=deps/action">
+									<form class='dropdown-item d-flex align-items-center' style="height:30px ;" method="post" action="http://localhost/sms_1/admin/?page=deps/action">
 										<input class='form-control' name="full" value="<?php echo $row['id'] ?>" hidden style="width:40%" />
 										<button type="submit" name="ifull" class="btn my-2">
 											<p class=' mx-2 my-2'> <i class="fa fa-check text-success mx-2"></i>I PAID FULL</p>
@@ -284,14 +275,14 @@ echo '0';
 
 
 
-									<form class='dropdown-item  d-flex align-items-center' style="height:30px ; " method="post" action="http://localhost:8080/sms/admin/?page=deps/action">
+									<form class='dropdown-item  d-flex align-items-center' style="height:30px ; " method="post" action="http://localhost/sms_1/admin/?page=deps/action">
 										<input class='form-control' name="waiting" value="<?php echo $row['id'] ?>" hidden style="width:40%" />
 										<button type="submit" name="waitingfor" class="btn my-2">
 											<p class=' mx-2 my-2'> <i class="fa fa-question text-dark mx-2"></i>I HAVE NOT PAID</p>
 										</button>
 									</form>
 
-									<form class='dropdown-item  d-flex align-items-center' style="height:30px ;" method="post" action="http://localhost:8080/sms/admin/?page=deps/action">
+									<form class='dropdown-item  d-flex align-items-center' style="height:30px ;" method="post" action="http://localhost/sms_1/admin/?page=deps/action">
 										<input class='form-control' name="deletei" value="<?php echo $row['id'] ?>" hidden style="width:40%" />
 										<button type="submit" name="delete" class="btn  my-2">
 											<p class=' mx-2 my-2'> <i class="fa fa-trash text-danger mx-2"></i>DELETE</p>
@@ -305,7 +296,7 @@ echo '0';
 
 							<?php } ?>
 						</td>
-						<!-- <td><form  method="post" action="http://localhost:8080/sms/admin/?page=gu/action">
+						<!-- <td><form  method="post" action="http://localhost/sms_1/admin/?page=gu/action">
 
 				<input class='form-control' name="deletei" value="<?php echo $row['person'] ?>" hidden style="width:40%"/>
 				<button type="submit" name="delete" class="btn btn-danger my-2 rounded-pill">DELETE</button>

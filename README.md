@@ -76,7 +76,7 @@ You can take like two hrs to understand everything
 
 SYSTEM CONNECTION,
 
- LOCALHOST:8080/SMS not LOCALHSOT/SMS
+ LOCALHOST/SMS not LOCALHSOT/SMS
 
 I USE PORT 8080 JUST FOR THE API CALLS
 

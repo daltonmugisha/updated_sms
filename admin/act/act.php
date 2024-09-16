@@ -19,7 +19,7 @@
                     </colgroup>
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>N<sup>o</sup></th>
                             <th>Date Created</th>
                             <th>Name</th>
                             <th>Activity_performed</th>

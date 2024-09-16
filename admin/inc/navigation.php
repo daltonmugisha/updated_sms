@@ -91,6 +91,14 @@
                     <?php if($_settings->userdata('type') == 1): ?>
                     <li class="nav-header">Maintenance</li>
                     <li class="nav-item dropdown">
+                    <a href="<?php echo base_url ?>admin/?page=category/addcategory" class="nav-link  <?php echo isset($_GET['page']) && $_GET['page'] == 'category/addcategory' ? 'active' : ''; ?>">
+                        <i class="nav-icon fas fa-list"></i>
+                        <p>
+                          Category Lists 
+                        </p>
+                      </a>
+                    </li>
+                    <li class="nav-item dropdown">
                       <a href="<?php echo base_url ?>admin/?page=maintenance/supplier" class="nav-link nav-maintenance_supplier">
                         <i class="nav-icon fas fa-truck-loading"></i>
                         <p>
@@ -103,14 +111,6 @@
                         <i class="nav-icon fas fa-boxes"></i>
                         <p>
                           Item List
-                        </p>
-                      </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                    <a href="<?php echo base_url ?>admin/?page=category/addcategory" class="nav-link  <?php echo isset($_GET['page']) && $_GET['page'] == 'category/addcategory' ? 'active' : ''; ?>">
-                        <i class="nav-icon fas fa-list"></i>
-                        <p>
-                          Category Lists 
                         </p>
                       </a>
                     </li>

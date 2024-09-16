@@ -25,7 +25,7 @@ if (isset($_POST['submit'])) {
 	   if ($conn->query($sql) === TRUE) {
 
 
-    echo ' <script> location.replace("http://localhost:8080/sms/admin/?page=unit/unit"); </script>';
+    echo ' <script> location.replace("http://localhost/sms_1/admin/?page=unit/unit"); </script>';
     } else {
 		   echo "Error: " . $sql . "<br>" . $conn->error;
 	   }
@@ -43,7 +43,7 @@ if (isset($_POST['submit'])) {
 	   if ($conn->query($sql) === TRUE) {
 
 
-    echo ' <script> location.replace("http://localhost:8080/sms/admin/?page=unit/unit"); </script>';
+    echo ' <script> location.replace("http://localhost/sms_1/admin/?page=unit/unit"); </script>';
     } else {
 		   echo "Error: " . $sql . "<br>" . $conn->error;
 	   }

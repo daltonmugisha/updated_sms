@@ -219,7 +219,7 @@
         $('#dropdown').css('display', 'none');
 
       }
-      $.post("http://localhost:8080/sms/classes/Api/auto_complet.php",
+      $.post("http://localhost/sms_1/classes/Api/auto_complet.php",
         {
           search: s
         },

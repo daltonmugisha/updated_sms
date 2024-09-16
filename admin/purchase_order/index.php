@@ -12,19 +12,21 @@
                     <colgroup>
                         <col width="5%">
                         <col width="15%">
-                        <col width="20%">
-                        <col width="20%">
                         <col width="10%">
-                        <col width="10%">
+                        <col width="17%">
+                        <col width="22%">
+                        <col width="8%">
                         <col width="10%">
                     </colgroup>
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>N</sup>o</sup></th>
                             <th>Date Created</th>
                             <th>PO Code</th>
+                            <th>Item name</th>
                             <th>Supplier</th>
-                            <th>Items</th>
+                            <th>Quantity</th>
+                            <th>price</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -32,16 +34,29 @@
                     <tbody>
                         <?php 
                         $i = 1;
-                        $qry = $conn->query("SELECT p.*, s.name as supplier FROM `purchase_order_list` p inner join supplier_list s on p.supplier_id = s.id order by p.`date_created` desc");
+                        
+                        $qry = $conn->query("SELECT p.*, s.name as supplier FROM `purchase_order_list` p inner join supplier_list s
+                         on p.supplier_id = s.id order by p.`date_created` desc");
                         while($row = $qry->fetch_assoc()):
-                            $row['items'] = $conn->query("SELECT count(item_id) as `items` FROM `po_items` where po_id = '{$row['id']}' ")->fetch_assoc()['items'];
+                        $row['items'] = $conn->query("SELECT count(item_id) as `items` FROM `po_items` where po_id = 
+                            '{$row['id']}' ")->fetch_assoc()['items'];
+
+                          $rows['namez'] = $conn->query("SELECT item_list.name AS names from item_list inner join po_items on item_list.id=po_items.item_id
+                           WHERE po_id = '{$row['id']}' ")->fetch_assoc()['names'];
+                        $rowss['price'] = $conn->query("SELECT po_items.price AS price from po_items inner join item_list on item_list.id=po_items.item_id
+                        WHERE po_id = '{$row['id']}' ")->fetch_assoc()['price'];
+                        
+                        
                         ?>
                             <tr>
                                 <td class="text-center"><?php echo $i++; ?></td>
                                 <td><?php echo date("Y-m-d H:i",strtotime($row['date_created'])) ?></td>
                                 <td><?php echo $row['po_code'] ?></td>
+                                <td><?php echo $rows['namez'] ?></td>
                                 <td><?php echo $row['supplier'] ?></td>
                                 <td class="text-right"><?php echo number_format($row['items']) ?></td>
+                                <td><?php echo $rowss['price'] ?></td>
+                                
                                 <td class="text-center">
                                     <?php if($row['status'] == 0): ?>
                                         <span class="badge badge-primary rounded-pill">Pending</span>

@@ -46,16 +46,17 @@
 				</colgroup>
 				<thead>
 					<tr>
-						<th>#</th>
-						<th>Date Created</th>
-						<th>Name</th>
-						<th>Supplier</th>
+						<th>N<sup>o</sup></th>
+						<th>Item Name</th>
 						<th>Item Category</th>
+						<th>Supplier</th>
+						<th>Price</th>
 						<th>Status</th>
 						<th>Action</th>
 					</tr>
 				</thead>
 				<tbody>
+
 					<?php 
 					$i = 1;
 					if ($_SERVER['REQUEST_METHOD'] == 'GET') {
@@ -65,13 +66,13 @@
 						// Modify your SQL query accordingly
 						if($cat_id=="all"){
 				 
-							$qry = $conn->query("SELECT i.*, s.name as supplier, cat.name AS category_name FROM `item_list` i 
+							$qry = $conn->query("SELECT i.*, s.name as supplier, cat.name AS category_name, cost AS p_cost FROM `item_list` i 
 							LEFT JOIN supplier_list s ON i.supplier_id = s.id 
 							LEFT JOIN category cat ON cat.id = i.cat_id 
 							ORDER BY i.name ASC, s.name ASC");
 						}else{
 						
-						$qry = $conn->query("SELECT i.*, s.name as supplier, cat.name AS category_name FROM `item_list` i 
+						$qry = $conn->query("SELECT i.*, s.name as supplier, cat.name AS category_name, cost AS p_cost FROM `item_list` i
 											INNER JOIN supplier_list s ON i.supplier_id = s.id 
 											INNER JOIN category cat ON cat.id = i.cat_id 
 											" . ($cat_id ? "WHERE i.cat_id = '$cat_id'" : "") . "
@@ -79,7 +80,7 @@
 
 						}
 					}else{
-						$qry = $conn->query("SELECT i.*, s.name as supplier, cat.name AS category_name FROM `item_list` i 
+						$qry = $conn->query("SELECT i.*, s.name as supplier, cat.name AS category_name, cost AS p_cost FROM `item_list` i
 						LEFT JOIN supplier_list s ON i.supplier_id = s.id 
 						LEFT JOIN category cat ON cat.id = i.cat_id 
 						ORDER BY i.name ASC, s.name ASC");
@@ -88,10 +89,12 @@
 					?>
 						<tr>
 							<td class="text-center"><?php echo $i++; ?></td>
-							<td><?php echo date("Y-m-d H:i",strtotime($row['date_created'])) ?></td>
+							<!-- <td><?php echo date("Y-m-d H:i",strtotime($row['date_created'])) ?></td> -->
 							<td><?php echo $row['name'] ?></td>
-							<td><?php echo $row['supplier'] ?></td>
 							<td><?php echo $row['category_name'] ?></td>
+							<td><?php echo $row['supplier'] ?></td>
+							<td><?php echo $row['p_cost'] ?></td>
+
 							<td class="text-center">
                                 <?php if($row['status'] == 1): ?>
                                     <span class="badge badge-success rounded-pill">Active</span>

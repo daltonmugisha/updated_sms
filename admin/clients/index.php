@@ -32,7 +32,7 @@
 				</colgroup> -->
 				<thead>
 					<tr>
-						<th>#</th>
+						<th>N<sup>o</sup></th>
 						<th>Date Registered</th>
 						<th>Avatar</th>
 						<th>Name</th>

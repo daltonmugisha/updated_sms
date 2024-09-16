@@ -77,7 +77,7 @@ function getAndSendEmail($connect, $supplier_id) {
                                     <h2 style='font-family: Audiowide;'>STOCKIFY</h2>
                                     <h3>Hello!! View this purchase order by clicking the button below.</h3>
                                     <p>Switchiify has created a purchase order with PO-CODE: $CODE</p>
-                                    <a href='http://localhost:8080/sms/poview.php?id=$ID'>
+                                    <a href='http://localhost/sms_1/poview.php?id=$ID'>
                                         <button>VIEW THE PURCHASE ORDER</button>
                                     </a>
                                     <h5>Remarks</h5>

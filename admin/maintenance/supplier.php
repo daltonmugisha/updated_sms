@@ -13,17 +13,21 @@
 				<colgroup>
 					<col width="5%">
 					<col width="15%">
-					<col width="25%">
-					<col width="25%">
 					<col width="15%">
 					<col width="15%">
+					<col width="12%">
+					<col width="15%">
+					<col width="15%">
+					<col width="15%">
+
 				</colgroup>
 				<thead>
 					<tr>
-						<th>#</th>
+					    <th>N<sup>o</sup></th>
 						<th>Date Created</th>
 						<th>Supplier</th>
 						<th>Contact Person</th>
+						<th>phone number</th>
 						<th>Email</th>
 						<th>Status</th>
 						<th>Action</th>
@@ -40,6 +44,7 @@
 							<td><?php echo date("Y-m-d H:i",strtotime($row['date_created'])) ?></td>
 							<td><?php echo $row['name'] ?></td>
 							<td class=""><?php echo $row['cperson'] ?></td>
+							<td class=""><?php echo $row['contact'] ?></td>
 							<td class=""><?php echo $row['email'] ?></td>
 							<td class="text-center">
                                 <?php if($row['status'] == 1): ?>

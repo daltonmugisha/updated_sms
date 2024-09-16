@@ -20,7 +20,7 @@
                     </colgroup>
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>N<sup>o</sup></th>
                             <th>Date Created</th>
                             <th>BO Code</th>
                             <th>Supplier</th>
